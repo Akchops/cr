@@ -41,7 +41,7 @@ photographer's) photographs. That is low risk for the intended use — the page 
 sold to the owner, whose photographs they are — but it is not a basis for publishing the
 page for anyone else, or for using the shots as studio portfolio work.
 
-### A "BEFORE" set exists on the business site
+### Before / after
 
 The gallery labels a group of photographs **BEFORE** (rear seats and a cargo area covered
 in hay). A separate uncaptioned slide shows what looks like the same red vehicle with

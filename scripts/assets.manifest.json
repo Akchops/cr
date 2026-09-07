@@ -203,6 +203,21 @@
       "localHeight": 620,
       "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778).",
       "notPlacedReason": "Judged the weakest image in the set and left off the page. It is dimmer and flatter than the rest, has no single subject, and the floor clutter (a rag, a creeper, loose cables) reads as untidy on a page whose argument is \"every detail, in focus\". The workshop authenticity it would add is already carried by better photographs: the hero Tesla has the shop behind it, the sports car has the Carriagetown sign on the wall, and the SUV is in a bay. Available to place in the about section on request - it would need the two visible customer licence plates blurred first, as was done for the saloon."
+    },
+    {
+      "id": "rear-seating-before",
+      "file": "rear-seating-before.jpg",
+      "w": 473,
+      "h": 612,
+      "orientation": "portrait",
+      "url": "not captured - appears in the site photo gallery under a BEFORE caption",
+      "alt": "The rear seating area of a red vehicle covered in loose hay and debris before cleaning.",
+      "caption": "Rear seating, before",
+      "role": "before/after pair in the work section",
+      "used": true,
+      "localWidth": 473,
+      "localHeight": 612,
+      "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778)."
     }
   ],
   "logo": {
@@ -228,8 +243,9 @@
     ]
   },
   "beforeAfterFinding": {
-    "observed": "The business gallery labels a group of photographs \"BEFORE\" (rear seats and a cargo area covered in hay/straw). A separate uncaptioned slide shows what appears to be the same red vehicle with clean rear seats.",
-    "action": "NOT used. The site labels the BEFORE group but does not label any AFTER, so pairing them would be an inference by the studio, not something the source establishes. The brief forbids constructing before/after results. Raise with Jeff and only build a pair if he confirms the two photographs are the same job.",
-    "dirtyPhotosUsed": false
+    "observed": "The business gallery labels this photograph BEFORE. A separate uncaptioned slide shows the same red vehicle, same rear bench, same camera position, clean.",
+    "resolution": "The studio confirmed the two photographs are the same vehicle. A labelled before/after pair is therefore built into the work section. The page claims only what the two photographs show - the same rear seating before and after interior detailing. It makes no claim about products, technique, duration or any other outcome.",
+    "assumption": "Rests on the studio's confirmation that the clean photograph is the after state of this job rather than the same car on a later visit. Worth confirming with Jeff before launch, since it is the one causal claim on the page.",
+    "dirtyPhotosUsed": "Only this one, and only as the labelled BEFORE half of the pair."
   }
 }

@@ -259,6 +259,36 @@ address{font-style:normal;}
   display:grid;gap:clamp(1rem,2.5vw,1.6rem);
 }
 
+
+/* ------------------------- BEFORE / AFTER PAIR -------------------------- */
+/* The two halves stay side by side at every width. Stacking them would lose
+   the comparison, which is the only reason the block exists. */
+.ba{
+  max-width:var(--maxw);margin:clamp(2.5rem,5vw,4rem) auto 0;padding:0 var(--pad);
+}
+.ba__head{margin-bottom:clamp(1.2rem,2.5vw,1.8rem);}
+.ba__title{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(1.7rem,1.2rem + 1.7vw,2.6rem);
+  line-height:1;letter-spacing:-.01em;margin:0 0 .5rem;
+}
+.ba__lede{color:var(--steel);max-width:44ch;font-size:.98rem;}
+.ba__pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.6rem,1.6vw,1.2rem);}
+.ba__item .shot__frame{border:1px solid var(--hair);}
+.ba__chip{
+  position:absolute;top:0;left:0;z-index:2;
+  font-family:var(--body);font-size:.62rem;font-weight:700;
+  letter-spacing:.17em;text-transform:uppercase;
+  padding:.4rem .7rem;border-radius:0 0 2px 0;
+}
+.ba__chip--before{background:rgba(16,17,19,.86);color:var(--warm);}
+.ba__chip--after{background:var(--signal);color:var(--ink);}
+@media (min-width:760px){
+  /* 920px puts each half at ~450px, just under the 473px source, so the pair
+     gains presence without being upscaled past native. */
+  .ba__pair{max-width:920px;}
+}
+
 /* ------------------------------- SERVICES ------------------------------- */
 .services{
   background:var(--warm);color:var(--ink);

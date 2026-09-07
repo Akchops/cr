@@ -28,15 +28,19 @@ const PLAN = {
   'ford-interior':    { widths: [480, 800, 1400],        ratio: 4 / 3,  position: 'centre' },
   'jeep-interior':    { widths: [480, 800, 1200],        ratio: 3 / 4,  position: 'attention' },
   'corvette':         { widths: [480, 800, 1400],        ratio: 4 / 3,  position: 'centre' },
+  'rear-seating-before': { widths: [480, 800, 1200],     ratio: 3 / 4,  position: 'attention' },
   'bentley':          { widths: [480, 800, 1400],        ratio: 4 / 3,  position: 'centre' },
 };
 
 const present = new Set(await readdir(rawDir).catch(() => []));
+const missingPlan = [];
 let made = 0;
 
 for (const photo of manifest.photos) {
   if (!present.has(photo.file)) { console.log(`skip  ${photo.id} (raw file absent)`); continue; }
+  if (photo.used === false) { console.log(`skip  ${photo.id} (recovered but not placed)`); continue; }
   const plan = PLAN[photo.id];
+  if (!plan) { console.error(`FAIL  ${photo.id} is used on the page but has no crop plan`); missingPlan.push(photo.id); continue; }
   const src = join(rawDir, photo.file);
 
   // Never upscale: a screenshot-recovered source must not be inflated to a
@@ -75,3 +79,7 @@ if (present.has(manifest.logo.file)) {
 }
 
 console.log(`\n${made} derivative(s) written to public/assets/photos/`);
+if (missingPlan.length) {
+  console.error(`\nMissing crop plans for: ${missingPlan.join(', ')}`);
+  process.exit(1);
+}

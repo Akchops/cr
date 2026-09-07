@@ -90,7 +90,7 @@
     if (!canObserve || prefersReduced()) return;
 
     var targets = [].slice.call(document.querySelectorAll(
-      '.work .section-head, .work-grid > li, .services .section-head, .svc__row,' +
+      '.work .section-head, .ba, .work-grid > li, .services .section-head, .svc__row,' +
       '.svc__foot, .about__shot, .about__copy, .contact .section-head,' +
       '.contact__actions, .contact__panel, .closing__inner'
     ));
