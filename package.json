@@ -1,0 +1,35 @@
+{
+  "name": "carriagetown-detailing-concept",
+  "version": "0.1.0",
+  "description": "Unofficial, private website concept for Carriagetown Detailing LLC. Not commissioned or approved by the business.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "fetch-assets": "node scripts/fetch-assets.mjs",
+    "optimize-assets": "node scripts/optimize-assets.mjs",
+    "assets": "npm run fetch-assets && npm run optimize-assets",
+    "dev": "node scripts/serve.mjs",
+    "qa": "node scripts/qa.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akchops/cr.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Akchops/cr/issues"
+  },
+  "homepage": "https://github.com/Akchops/cr#readme",
+  "devDependencies": {
+    "gsap": "^3.15.0",
+    "playwright": "^1.63.0",
+    "serve-handler": "^6.1.7",
+    "sharp": "^0.35.4"
+  },
+  "private": true,
+  "type": "module"
+}

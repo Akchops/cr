@@ -1,0 +1,126 @@
+{
+  "_note": "Source/permission manifest for the Carriagetown Detailing unofficial concept. These are photographs published on the business's own website. Photography ownership and model/property releases have NOT been established. Use is limited to this private, unpublished concept presentation. Written permission must be obtained from Carriagetown Detailing LLC before any official or public launch.",
+  "sourceSite": "https://carriagetowndetailingllc.godaddysites.com/",
+  "researchDate": "2026-09-07",
+  "rights": {
+    "status": "UNRESOLVED",
+    "holder": "Presumed Carriagetown Detailing LLC or its photographer - not verified",
+    "grantedUse": "Private concept presentation to the business owner only",
+    "blockedUse": "Public hosting, marketing, paid launch, redistribution",
+    "actionBeforeLaunch": "Obtain written permission from Jeff Sass for each image, or replace with owner-supplied originals"
+  },
+  "photos": [
+    {
+      "id": "hero-black-tesla",
+      "file": "hero-black-tesla.jpg",
+      "w": 2048,
+      "h": 1536,
+      "orientation": "landscape",
+      "url": "https://img1.wsimg.com/isteam/ip/c40cbda0-ffd9-4b4a-bee2-3d19d4bcb9b2/1C691596-0F5D-4957-B929-0F841552309B.jpeg",
+      "alt": "A glossy black Tesla photographed from the front three-quarter angle inside the Carriagetown Detailing workshop.",
+      "caption": "Vehicle exterior, workshop",
+      "role": "hero + work sequence beat 01 + services row 03 (ceramic coatings)",
+      "used": true
+    },
+    {
+      "id": "tesla-interior",
+      "file": "tesla-interior.jpg",
+      "w": 1536,
+      "h": 2048,
+      "orientation": "portrait",
+      "url": "https://img1.wsimg.com/isteam/ip/c40cbda0-ffd9-4b4a-bee2-3d19d4bcb9b2/03098ED6-6828-4030-8074-71FD67057C4F.jpeg",
+      "alt": "The interior of a Tesla with white front seats and a dark dashboard, driver's door open.",
+      "caption": "Cabin interior, front seats",
+      "role": "work sequence beat 02",
+      "used": true
+    },
+    {
+      "id": "cargo-area",
+      "file": "cargo-area.jpg",
+      "w": 2016,
+      "h": 1512,
+      "orientation": "landscape",
+      "url": "https://img1.wsimg.com/isteam/ip/c40cbda0-ffd9-4b4a-bee2-3d19d4bcb9b2/57117F5D-6250-4E33-8F0B-3B1FEBE078A9.jpeg",
+      "alt": "A clean vehicle cargo area photographed with the tailgate open.",
+      "caption": "Cargo area, interior",
+      "role": "work sequence beat 03",
+      "used": true
+    },
+    {
+      "id": "black-suv",
+      "file": "black-suv.jpg",
+      "w": 2016,
+      "h": 1512,
+      "orientation": "landscape",
+      "url": "https://img1.wsimg.com/isteam/ip/c40cbda0-ffd9-4b4a-bee2-3d19d4bcb9b2/6E0FE273-48CE-4916-85FF-1AE3E9308992.jpeg",
+      "alt": "A black SUV photographed from the rear three-quarter angle inside the workshop.",
+      "caption": "Vehicle exterior, workshop",
+      "role": "work grid + services row 02 (complete detailing) + closing crop",
+      "used": true
+    },
+    {
+      "id": "rv-exterior",
+      "file": "rv-exterior.jpg",
+      "w": 2016,
+      "h": 1512,
+      "orientation": "landscape",
+      "url": "https://img1.wsimg.com/isteam/ip/c40cbda0-ffd9-4b4a-bee2-3d19d4bcb9b2/85F9FB50-B897-4910-A350-1AF594DBC311.jpeg",
+      "alt": "A motorhome photographed outdoors.",
+      "caption": "RV exterior, outdoors",
+      "role": "work grid",
+      "used": true
+    },
+    {
+      "id": "rear-seating",
+      "file": "rear-seating.jpg",
+      "w": 1536,
+      "h": 2048,
+      "orientation": "portrait",
+      "url": "https://img1.wsimg.com/isteam/ip/c40cbda0-ffd9-4b4a-bee2-3d19d4bcb9b2/DDCFA457-ABCC-47DF-963F-20185D990278.jpeg",
+      "alt": "The rear seating area of a red vehicle, clean and unoccupied.",
+      "caption": "Rear seating, interior",
+      "role": "about section",
+      "used": true
+    },
+    {
+      "id": "gmc-interior",
+      "file": "gmc-interior.jpg",
+      "w": 2016,
+      "h": 1512,
+      "orientation": "landscape",
+      "url": "https://img1.wsimg.com/isteam/ip/c40cbda0-ffd9-4b4a-bee2-3d19d4bcb9b2/7098443D-2F96-4C49-A8D6-6C2DEABF77CC.jpeg",
+      "alt": "A vehicle interior with dark seats and dashboard.",
+      "caption": "Cabin interior, dark trim",
+      "role": "services row 01 (interior detailing)",
+      "used": true
+    },
+    {
+      "id": "pale-interior",
+      "file": "pale-interior.jpg",
+      "w": 1536,
+      "h": 2048,
+      "orientation": "portrait",
+      "url": "https://img1.wsimg.com/isteam/ip/c40cbda0-ffd9-4b4a-bee2-3d19d4bcb9b2/08497E0C-A0B2-4528-AFD5-AF3DCBD20DE6.jpeg",
+      "alt": "A vehicle interior with pale seats and wood dashboard trim.",
+      "caption": "Cabin interior, pale seats",
+      "role": "reserve - not placed (7 of 8 photos used)",
+      "used": false
+    }
+  ],
+  "logo": {
+    "id": "logo-carriage",
+    "file": "logo-carriage.jpg",
+    "w": 119,
+    "h": 67,
+    "url": "https://img1.wsimg.com/isteam/ip/c40cbda0-ffd9-4b4a-bee2-3d19d4bcb9b2/75B2C516-16A2-4509-8CC5-B0C787784E11.jpeg/:/rs=w:119,h:67,cg:true,m/cr=w:119,h:67/qt=q:95",
+    "note": "Native size 119x67 only. Never upscaled. Concept currently uses live typography for the wordmark; the logo file is optional and is only rendered at native size if present."
+  },
+  "captionRule": "Captions and placements are descriptive only. No image is claimed to show a ceramic coating, paint correction, or any specific service outcome, because the source does not establish which job produced which photograph. The services section carries a visible on-page line stating that the photographs are gallery images and are not presented as the result of a particular service.",
+  "prohibited": [
+    "before/after pairs",
+    "AI-generated people or vehicles",
+    "stock photography",
+    "invented staff portraits",
+    "manufacturer logos presented as partners"
+  ]
+}
