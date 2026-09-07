@@ -62,7 +62,6 @@
   --pad:clamp(1.15rem,4.4vw,3.5rem);
   --maxw:1280px;
   --hdr:60px;
-  --bar:0px;                /* mobile call bar height, set at breakpoint */
   --ease:cubic-bezier(.22,.61,.36,1);
 }
 
@@ -74,7 +73,6 @@ body{
   font-family:var(--body);font-size:clamp(1rem,.96rem + .2vw,1.075rem);
   line-height:1.6;-webkit-font-smoothing:antialiased;
   overflow-x:clip;
-  padding-bottom:var(--bar);
 }
 img,picture,svg{display:block;max-width:100%;}
 h1,h2,h3,p,dl,dd,figure,ol,ul{margin:0;}
@@ -484,6 +482,20 @@ address{font-style:normal;}
   display:inline-flex;align-items:center;min-height:44px;
 }
 .numbers__item dd a:hover{color:#9a8420;}
+.visually-hidden{
+  position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+}
+.copy{
+  margin-left:.85rem;flex:none;cursor:pointer;
+  min-height:44px;padding:.4rem .8rem;
+  font-size:.68rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--steel-dk);background:transparent;
+  border:1px solid rgba(16,17,19,.22);border-radius:2px;
+  transition:border-color .16s var(--ease),color .16s var(--ease),background-color .16s var(--ease);
+}
+.copy:hover{border-color:var(--ink);color:var(--ink);}
+.copy.is-done{background:var(--signal);border-color:var(--signal);color:var(--ink);}
 .numbers__hint{font-size:.82rem;color:var(--steel-dk);margin-top:.5rem;}
 
 .contact__panel{
@@ -555,25 +567,6 @@ address{font-style:normal;}
   max-width:62ch;padding-top:1.2rem;border-top:1px solid var(--hair);
 }
 
-/* ------------------------------- CALL BAR ------------------------------- */
-.callbar{
-  position:fixed;left:0;right:0;bottom:0;z-index:90;display:none;
-  background:rgba(16,17,19,.97);border-top:1px solid var(--hair);
-  padding-bottom:env(safe-area-inset-bottom);
-}
-@supports (backdrop-filter:blur(8px)){.callbar{backdrop-filter:blur(10px);}}
-.callbar__btn{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:.05rem;min-height:56px;text-decoration:none;padding:.5rem .6rem;
-}
-.callbar__btn span{
-  font-family:var(--display);font-weight:700;font-size:1.06rem;
-  letter-spacing:.11em;text-transform:uppercase;line-height:1.1;
-}
-.callbar__btn small{font-size:.72rem;color:var(--steel);line-height:1.2;}
-.callbar__btn--text{background:var(--signal);color:var(--ink);}
-.callbar__btn--text small{color:rgba(16,17,19,.72);}
-.callbar__btn--call{border-left:1px solid var(--hair);}
 
 /* ==========================================================================
    RESPONSIVE
@@ -598,12 +591,10 @@ address{font-style:normal;}
 }
 
 @media (max-width:759px){
-  :root{--bar:58px;}
   .hero{padding-top:1.5rem;}
   .hero__body{margin-bottom:1.4rem;font-size:1rem;}
   .hero__title{margin-bottom:1rem;}
   .hero__inner{gap:1.5rem;}
-  .callbar{display:flex;}
   .header-tel{padding-left:.8rem;}
   .header-tel__label{display:none;}
   .header-tel__num{font-size:1rem;}
@@ -759,7 +750,7 @@ address{font-style:normal;}
 
 /* Printing keeps the disclaimer visible */
 @media print{
-  .callbar,.site-nav,.nav-toggle{display:none !important;}
+  .site-nav,.nav-toggle{display:none !important;}
   body{background:#fff;color:#000;}
 }
 
@@ -789,7 +780,7 @@ address{font-style:normal;}
     </nav>
 
     <div class="site-header__actions">
-      <a class="header-tel" href="tel:+19785726344">
+      <a class="header-tel" href="tel:+19785726344" target="_top">
         <span class="header-tel__label">Call</span>
         <span class="header-tel__num">(978) 572-6344</span>
       </a>
@@ -1087,20 +1078,23 @@ address{font-style:normal;}
 
     <div class="contact__grid">
       <div class="contact__actions">
-        <a class="btn btn--primary btn--block" href="sms:+19784904139">Text for a quote</a>
-        <a class="btn btn--outline btn--block" href="tel:+19785726344">Call the shop</a>
+        <a class="btn btn--primary btn--block" href="sms:+19784904139" target="_top">Text for a quote</a>
+        <a class="btn btn--outline btn--block" href="tel:+19785726344" target="_top">Call the shop</a>
 
         <dl class="numbers">
           <div class="numbers__item">
             <dt>Text</dt>
-            <dd><a href="sms:+19784904139">(978) 490-4139</a></dd>
+            <dd><a href="sms:+19784904139" target="_top">(978) 490-4139</a></dd>
+            <button class="copy" type="button" data-copy="(978) 490-4139" aria-label="Copy the text number">Copy</button>
           </div>
           <div class="numbers__item">
             <dt>Call</dt>
-            <dd><a href="tel:+19785726344">(978) 572-6344</a></dd>
+            <dd><a href="tel:+19785726344" target="_top">(978) 572-6344</a></dd>
+            <button class="copy" type="button" data-copy="(978) 572-6344" aria-label="Copy the phone number">Copy</button>
           </div>
         </dl>
         <p class="numbers__hint">Two different numbers — the first is for text messages, the second for calls.</p>
+        <p class="visually-hidden" role="status" aria-live="polite" id="copy-status"></p>
       </div>
 
       <div class="contact__panel">
@@ -1164,12 +1158,6 @@ address{font-style:normal;}
     <p class="disclaimer">Unofficial website concept created independently for presentation purposes. Not commissioned or approved by Carriagetown Detailing LLC.</p>
   </div>
 </footer>
-
-<!-- Sticky mobile call / text bar -->
-<div class="callbar" role="group" aria-label="Contact Carriagetown Detailing">
-  <a class="callbar__btn callbar__btn--text" href="sms:+19784904139"><span>Text</span><small>(978) 490-4139</small></a>
-  <a class="callbar__btn callbar__btn--call" href="tel:+19785726344"><span>Call</span><small>(978) 572-6344</small></a>
-</div>
 
 <script>/*!
  * GSAP 3.15.0
@@ -1259,6 +1247,48 @@ address{font-style:normal;}
     // Returning to desktop width must never leave a stale open panel.
     window.matchMedia('(min-width: 900px)').addEventListener('change', function (e) {
       if (e.matches) setOpen(false);
+    });
+  })();
+
+  /* ------------------------------------------------ copy a phone number */
+  (function copyNumbers() {
+    var buttons = [].slice.call(document.querySelectorAll('.copy'));
+    if (!buttons.length) return;
+    var status = document.getElementById('copy-status');
+
+    function fallbackCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:absolute;left:-9999px;top:0;';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var text = btn.getAttribute('data-copy');
+        var done = function (ok) {
+          btn.textContent = ok ? 'Copied' : 'Select it';
+          btn.classList.toggle('is-done', ok);
+          if (status) status.textContent = ok ? text + ' copied' : 'Copy failed — select the number manually';
+          window.setTimeout(function () {
+            btn.textContent = 'Copy';
+            btn.classList.remove('is-done');
+          }, 2000);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text)
+            .then(function () { done(true); })
+            .catch(function () { done(fallbackCopy(text)); });
+        } else {
+          done(fallbackCopy(text));
+        }
+      });
     });
   })();
 

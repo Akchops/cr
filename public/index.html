@@ -62,7 +62,7 @@
     </nav>
 
     <div class="site-header__actions">
-      <a class="header-tel" href="tel:+19785726344">
+      <a class="header-tel" href="tel:+19785726344" target="_top">
         <span class="header-tel__label">Call</span>
         <span class="header-tel__num">(978) 572-6344</span>
       </a>
@@ -408,20 +408,23 @@
 
     <div class="contact__grid">
       <div class="contact__actions">
-        <a class="btn btn--primary btn--block" href="sms:+19784904139">Text for a quote</a>
-        <a class="btn btn--outline btn--block" href="tel:+19785726344">Call the shop</a>
+        <a class="btn btn--primary btn--block" href="sms:+19784904139" target="_top">Text for a quote</a>
+        <a class="btn btn--outline btn--block" href="tel:+19785726344" target="_top">Call the shop</a>
 
         <dl class="numbers">
           <div class="numbers__item">
             <dt>Text</dt>
-            <dd><a href="sms:+19784904139">(978) 490-4139</a></dd>
+            <dd><a href="sms:+19784904139" target="_top">(978) 490-4139</a></dd>
+            <button class="copy" type="button" data-copy="(978) 490-4139" aria-label="Copy the text number">Copy</button>
           </div>
           <div class="numbers__item">
             <dt>Call</dt>
-            <dd><a href="tel:+19785726344">(978) 572-6344</a></dd>
+            <dd><a href="tel:+19785726344" target="_top">(978) 572-6344</a></dd>
+            <button class="copy" type="button" data-copy="(978) 572-6344" aria-label="Copy the phone number">Copy</button>
           </div>
         </dl>
         <p class="numbers__hint">Two different numbers — the first is for text messages, the second for calls.</p>
+        <p class="visually-hidden" role="status" aria-live="polite" id="copy-status"></p>
       </div>
 
       <div class="contact__panel">
@@ -490,11 +493,6 @@
   </div>
 </footer>
 
-<!-- Sticky mobile call / text bar -->
-<div class="callbar" role="group" aria-label="Contact Carriagetown Detailing">
-  <a class="callbar__btn callbar__btn--text" href="sms:+19784904139"><span>Text</span><small>(978) 490-4139</small></a>
-  <a class="callbar__btn callbar__btn--call" href="tel:+19785726344"><span>Call</span><small>(978) 572-6344</small></a>
-</div>
 
 <script src="assets/js/gsap.min.js" defer></script>
 <script src="assets/js/ScrollTrigger.min.js" defer></script>

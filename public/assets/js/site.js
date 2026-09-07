@@ -64,6 +64,48 @@
     });
   })();
 
+  /* ------------------------------------------------ copy a phone number */
+  (function copyNumbers() {
+    var buttons = [].slice.call(document.querySelectorAll('.copy'));
+    if (!buttons.length) return;
+    var status = document.getElementById('copy-status');
+
+    function fallbackCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:absolute;left:-9999px;top:0;';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var text = btn.getAttribute('data-copy');
+        var done = function (ok) {
+          btn.textContent = ok ? 'Copied' : 'Select it';
+          btn.classList.toggle('is-done', ok);
+          if (status) status.textContent = ok ? text + ' copied' : 'Copy failed — select the number manually';
+          window.setTimeout(function () {
+            btn.textContent = 'Copy';
+            btn.classList.remove('is-done');
+          }, 2000);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text)
+            .then(function () { done(true); })
+            .catch(function () { done(fallbackCopy(text)); });
+        } else {
+          done(fallbackCopy(text));
+        }
+      });
+    });
+  })();
+
   /* --------------------------------------------------- hero entrance (1/2) */
   (function heroEntrance() {
     var fig = document.querySelector('[data-hero-figure]');

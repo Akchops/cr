@@ -204,19 +204,6 @@ for (const vp of VIEWPORTS) {
   });
   if (!discVisible) note('P0', vp.name, 'Disclaimer not legibly rendered');
 
-  /* --- call bar must not cover content --- */
-  const barCheck = await page.evaluate(() => {
-    const bar = document.querySelector('.callbar');
-    const s = getComputedStyle(bar);
-    if (s.display === 'none') return { shown: false };
-    const barH = bar.getBoundingClientRect().height;
-    const padB = parseFloat(getComputedStyle(document.body).paddingBottom);
-    return { shown: true, barH, padB, ok: padB >= barH - 2 };
-  });
-  if (barCheck.shown && !barCheck.ok) {
-    note('P1', vp.name, `Call bar (${barCheck.barH}px) exceeds reserved body padding (${barCheck.padB}px)`);
-  }
-
   /* --- mobile menu behaviour --- */
   if (vp.width < 900) {
     const toggle = page.locator('.nav-toggle');

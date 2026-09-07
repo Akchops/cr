@@ -29,7 +29,6 @@
   --pad:clamp(1.15rem,4.4vw,3.5rem);
   --maxw:1280px;
   --hdr:60px;
-  --bar:0px;                /* mobile call bar height, set at breakpoint */
   --ease:cubic-bezier(.22,.61,.36,1);
 }
 
@@ -41,7 +40,6 @@ body{
   font-family:var(--body);font-size:clamp(1rem,.96rem + .2vw,1.075rem);
   line-height:1.6;-webkit-font-smoothing:antialiased;
   overflow-x:clip;
-  padding-bottom:var(--bar);
 }
 img,picture,svg{display:block;max-width:100%;}
 h1,h2,h3,p,dl,dd,figure,ol,ul{margin:0;}
@@ -451,6 +449,20 @@ address{font-style:normal;}
   display:inline-flex;align-items:center;min-height:44px;
 }
 .numbers__item dd a:hover{color:#9a8420;}
+.visually-hidden{
+  position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+}
+.copy{
+  margin-left:.85rem;flex:none;cursor:pointer;
+  min-height:44px;padding:.4rem .8rem;
+  font-size:.68rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--steel-dk);background:transparent;
+  border:1px solid rgba(16,17,19,.22);border-radius:2px;
+  transition:border-color .16s var(--ease),color .16s var(--ease),background-color .16s var(--ease);
+}
+.copy:hover{border-color:var(--ink);color:var(--ink);}
+.copy.is-done{background:var(--signal);border-color:var(--signal);color:var(--ink);}
 .numbers__hint{font-size:.82rem;color:var(--steel-dk);margin-top:.5rem;}
 
 .contact__panel{
@@ -522,25 +534,6 @@ address{font-style:normal;}
   max-width:62ch;padding-top:1.2rem;border-top:1px solid var(--hair);
 }
 
-/* ------------------------------- CALL BAR ------------------------------- */
-.callbar{
-  position:fixed;left:0;right:0;bottom:0;z-index:90;display:none;
-  background:rgba(16,17,19,.97);border-top:1px solid var(--hair);
-  padding-bottom:env(safe-area-inset-bottom);
-}
-@supports (backdrop-filter:blur(8px)){.callbar{backdrop-filter:blur(10px);}}
-.callbar__btn{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:.05rem;min-height:56px;text-decoration:none;padding:.5rem .6rem;
-}
-.callbar__btn span{
-  font-family:var(--display);font-weight:700;font-size:1.06rem;
-  letter-spacing:.11em;text-transform:uppercase;line-height:1.1;
-}
-.callbar__btn small{font-size:.72rem;color:var(--steel);line-height:1.2;}
-.callbar__btn--text{background:var(--signal);color:var(--ink);}
-.callbar__btn--text small{color:rgba(16,17,19,.72);}
-.callbar__btn--call{border-left:1px solid var(--hair);}
 
 /* ==========================================================================
    RESPONSIVE
@@ -565,12 +558,10 @@ address{font-style:normal;}
 }
 
 @media (max-width:759px){
-  :root{--bar:58px;}
   .hero{padding-top:1.5rem;}
   .hero__body{margin-bottom:1.4rem;font-size:1rem;}
   .hero__title{margin-bottom:1rem;}
   .hero__inner{gap:1.5rem;}
-  .callbar{display:flex;}
   .header-tel{padding-left:.8rem;}
   .header-tel__label{display:none;}
   .header-tel__num{font-size:1rem;}
@@ -726,6 +717,6 @@ address{font-style:normal;}
 
 /* Printing keeps the disclaimer visible */
 @media print{
-  .callbar,.site-nav,.nav-toggle{display:none !important;}
+  .site-nav,.nav-toggle{display:none !important;}
   body{background:#fff;color:#000;}
 }
