@@ -20,14 +20,24 @@ npm run qa       # render + inspect at 1440/768/390/360, reduced-motion, no-JS
 
 ## Photograph status
 
-Four photos (GMC interior, RV exterior, Tesla interior, Ford truck interior) were
-recovered from owner-supplied phone screenshots of the live site and are in the build.
+Six photos (GMC interior, RV exterior, Tesla interior, Ford truck interior, red-car rear
+seating, Jeep interior) were recovered from owner-supplied phone screenshots of the live
+site and are in the build.
 They are re-compressed and ≤836px against 2016-2048px originals — fit for review, **not
 for launch**. `scripts/optimize-assets.mjs` clamps the responsive ladder to the real
 source width and never upscales.
 
 Still missing, rendering pending panels: **hero-black-tesla** (the hero the page is
-composed around), **black-suv**, **cargo-area**, **rear-seating**.
+composed around), **black-suv**, **cargo-area**.
+
+### A "BEFORE" set exists on the business site
+
+The gallery labels a group of photographs **BEFORE** (rear seats and a cargo area covered
+in hay). A separate uncaptioned slide shows what looks like the same red vehicle with
+clean rear seats. The brief's premise that no labelled pair exists is therefore not
+quite right — but the site labels no AFTER, so pairing them would be the studio's
+inference, not something the source establishes. **No before/after is built, and none of
+the dirty photographs are used.** Confirm with Jeff before building a pair.
 
 ## Photographs are not in this repository
 

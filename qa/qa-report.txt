@@ -1,7 +1,7 @@
-QA run 2026-09-07T14:25:45.648Z
+QA run 2026-09-07T14:29:56.757Z
 P0: 0   P1: 0   INFO: 4
 
-[INFO] desktop-1440: 8 x 404 — the blocked business photographs (expected until assets are fetched)
-[INFO] tablet-768: 7 x 404 — the blocked business photographs (expected until assets are fetched)
-[INFO] phone-390: 5 x 404 — the blocked business photographs (expected until assets are fetched)
-[INFO] phone-360: 5 x 404 — the blocked business photographs (expected until assets are fetched)
+[INFO] desktop-1440: 6 x 404 — the blocked business photographs (expected until assets are fetched)
+[INFO] tablet-768: 5 x 404 — the blocked business photographs (expected until assets are fetched)
+[INFO] phone-390: 3 x 404 — the blocked business photographs (expected until assets are fetched)
+[INFO] phone-360: 3 x 404 — the blocked business photographs (expected until assets are fetched)

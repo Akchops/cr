@@ -91,7 +91,9 @@
       "caption": "Rear seating, interior",
       "role": "about section",
       "used": true,
-      "provenance": "original JPEG from business website (2016-2048px) - NOT YET FETCHED in this environment"
+      "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778), cropped and trimmed. Re-compressed and well below the original - acceptable for review, NOT for launch. Replace with the original JPEG before any launch.",
+      "localWidth": 463,
+      "localHeight": 625
     },
     {
       "id": "gmc-interior",
@@ -135,6 +137,21 @@
       "localWidth": 874,
       "localHeight": 612,
       "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778), cropped and trimmed. Original JPEG URL not captured during research. Confirm with the owner and obtain the original before any launch."
+    },
+    {
+      "id": "jeep-interior",
+      "file": "jeep-interior.jpg",
+      "w": 496,
+      "h": 619,
+      "orientation": "portrait",
+      "url": "not captured - appears in the site photo gallery",
+      "alt": "A Jeep interior with pale leather seats and wood-effect dashboard trim.",
+      "caption": "Cabin interior, pale seats",
+      "role": "work sequence beat 03",
+      "used": true,
+      "localWidth": 496,
+      "localHeight": 619,
+      "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778), cropped and trimmed. Re-compressed and well below the original - acceptable for review, NOT for launch. Replace with the original JPEG before any launch. Possibly the same photograph as the manifest entry \"pale-interior\" (described as pale seats with wood dash trim), but the identification is NOT confirmed, so it is recorded as its own entry rather than claiming that URL."
     }
   ],
   "logo": {
@@ -154,13 +171,17 @@
     "manufacturer logos presented as partners"
   ],
   "stillMissing": {
-    "note": "These four slots have no photograph and still render pending-asset panels.",
+    "note": "These slots have no photograph and still render pending-asset panels.",
     "ids": [
       "hero-black-tesla",
       "black-suv",
-      "cargo-area",
-      "rear-seating"
+      "cargo-area"
     ],
     "blocking": "hero-black-tesla is the hero image the whole concept is composed around."
+  },
+  "beforeAfterFinding": {
+    "observed": "The business gallery labels a group of photographs \"BEFORE\" (rear seats and a cargo area covered in hay/straw). A separate uncaptioned slide shows what appears to be the same red vehicle with clean rear seats.",
+    "action": "NOT used. The site labels the BEFORE group but does not label any AFTER, so pairing them would be an inference by the studio, not something the source establishes. The brief forbids constructing before/after results. Raise with Jeff and only build a pair if he confirms the two photographs are the same job.",
+    "dirtyPhotosUsed": false
   }
 }
