@@ -114,6 +114,46 @@
     }, 4000);
   })();
 
+  /* ------------------------------------------------ mask reveals (photos) */
+  (function maskReveals() {
+    if (!canObserve || prefersReduced()) return;
+
+    var sel = ['.ba .shot__frame', '.work-grid .shot__frame',
+               '.about__shot .shot__frame', '.svc__shot .shot__frame'];
+    // Above 960px the work stage runs its own pinned mask, so leave it alone.
+    if (!window.matchMedia('(min-width: 960px)').matches) {
+      sel.push('.stage__beat .shot__frame');
+    }
+
+    var frames = [].slice.call(document.querySelectorAll(sel.join(',')));
+    if (!frames.length) return;
+
+    frames.forEach(function (f) { f.classList.add('mask'); });
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        // Stagger siblings so a row resolves in sequence, not all at once.
+        var group = el.closest('li, .ba__item, .svc__row, .about__shot');
+        var idx = 0;
+        if (group && group.parentElement) {
+          idx = [].indexOf.call(group.parentElement.children, group);
+        }
+        el.style.transitionDelay = Math.min(idx, 3) * 90 + 'ms';
+        el.classList.add('is-in');
+        io.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+
+    frames.forEach(function (f) { io.observe(f); });
+
+    // Nothing stays masked, whatever happens to the observer.
+    window.setTimeout(function () {
+      frames.forEach(function (f) { f.classList.add('is-in'); });
+    }, 4000);
+  })();
+
   /* ------------------------------------------------------------ scroll spy */
   (function scrollSpy() {
     if (!canObserve) return;

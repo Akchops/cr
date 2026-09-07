@@ -210,6 +210,29 @@ address{font-style:normal;}
 .shot__pending--light::before{color:var(--steel-dk);}
 .shot__pending--light::after{color:#8a7413;}
 
+
+/* Mask reveal for photography. Applied by JS only, so a failed script leaves
+   every image visible. Same visual language as the hero entrance and the
+   pinned stage, so a phone gets a deliberate reveal rather than a plain fade. */
+.js .mask{clip-path:inset(0 0 100% 0);}
+.js .mask > picture > img,
+.js .mask > picture,
+.js .mask > .shot__pending{transform:scale(1.05);}
+.js .mask.is-in{
+  clip-path:inset(0 0 0 0);
+  transition:clip-path .78s var(--ease);
+}
+.js .mask.is-in > picture > img,
+.js .mask.is-in > picture,
+.js .mask.is-in > .shot__pending{
+  transform:scale(1);
+  transition:transform .95s var(--ease);
+}
+@media (prefers-reduced-motion:reduce){
+  .js .mask,.js .mask.is-in{clip-path:none !important;}
+  .js .mask > picture,.js .mask > picture > img,.js .mask > .shot__pending{transform:none !important;}
+}
+
 /* --------------------------------- HERO --------------------------------- */
 .hero{position:relative;overflow:hidden;padding:clamp(2.2rem,5vw,4.5rem) 0 clamp(3rem,6vw,5.5rem);}
 .hero::before{
@@ -298,6 +321,7 @@ address{font-style:normal;}
 .svc{max-width:var(--maxw);margin-inline:auto;padding:0 var(--pad);}
 .svc__row{
   display:grid;gap:1.1rem 1.6rem;align-items:center;
+  min-width:0;
   padding:clamp(1.4rem,3vw,2.1rem) 0;
   border-top:1px solid var(--hair-lt);
 }
@@ -311,6 +335,7 @@ address{font-style:normal;}
   font-size:clamp(1.85rem,1.2rem + 2.1vw,2.9rem);
   line-height:1;letter-spacing:-.01em;margin:0 0 .45rem;
 }
+.svc__row > *{min-width:0;}
 .svc__desc{color:var(--steel-dk);max-width:40ch;}
 .svc__shot .shot__frame{border:1px solid var(--hair-lt);background:#e7e4db;}
 .ratio--16x9{aspect-ratio:16/9;}
@@ -328,14 +353,14 @@ address{font-style:normal;}
 /* -------------------------------- PRICES -------------------------------- */
 .prices{
   margin-top:1rem;display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));
   gap:0 clamp(1.2rem,3vw,2.6rem);max-width:540px;
 }
 .prices__row{
   display:flex;align-items:baseline;gap:.75rem;
   padding:.45rem 0;border-bottom:1px solid var(--hair-lt);
 }
-.prices__row dt{color:var(--steel-dk);font-size:.92rem;}
+.prices__row dt{color:var(--steel-dk);font-size:.92rem;min-width:0;}
 .prices__row dd{
   margin:0 0 0 auto;font-weight:600;font-size:1rem;
   font-variant-numeric:tabular-nums;white-space:nowrap;
@@ -355,7 +380,7 @@ address{font-style:normal;}
 }
 .also__list{
   display:grid;gap:clamp(1.2rem,3vw,2rem);
-  grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(min(215px,100%),1fr));
 }
 .also__name{
   font-family:var(--display);font-weight:700;font-size:1.3rem;

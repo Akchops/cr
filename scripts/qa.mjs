@@ -45,22 +45,51 @@ for (const vp of VIEWPORTS) {
   await page.goto(BASE, { waitUntil: 'networkidle' });
   await page.waitForTimeout(900);
 
-  /* --- horizontal overflow --- */
+  /* --- horizontal overflow ---
+     overflow-x:clip stops the document scrolling, so scrollWidth alone reports
+     clean while content is cut off. Measure real boxes, but intersect each with
+     its clipping ancestors first: an image scaled inside an overflow:hidden
+     frame is contained by design, not a defect. Only content still past the
+     viewport after that clipping is a real bug. --- */
   const overflow = await page.evaluate(() => {
-    const de = document.documentElement;
+    const vw = document.documentElement.clientWidth;
     const bad = [];
-    if (de.scrollWidth > de.clientWidth + 1) {
-      document.querySelectorAll('*').forEach(el => {
-        const r = el.getBoundingClientRect();
-        if (r.width > 0 && (r.right > de.clientWidth + 1 || r.left < -1)) {
-          bad.push(`${el.tagName.toLowerCase()}.${(el.className || '').toString().split(' ')[0]} right=${Math.round(r.right)} left=${Math.round(r.left)}`);
+    const root = document.documentElement;
+
+    function visibleRect(el) {
+      let r = el.getBoundingClientRect();
+      let left = r.left, right = r.right;
+      let p = el.parentElement;
+      while (p && p !== root && p !== document.body) {
+        const cs = getComputedStyle(p);
+        const ox = cs.overflowX;
+        if (ox === 'hidden' || ox === 'clip' || ox === 'auto' || ox === 'scroll') {
+          const pr = p.getBoundingClientRect();
+          left = Math.max(left, pr.left);
+          right = Math.min(right, pr.right);
         }
-      });
+        p = p.parentElement;
+      }
+      return { left, right, width: right - left };
     }
-    return { doc: de.scrollWidth, client: de.clientWidth, bad: bad.slice(0, 8) };
+
+    document.querySelectorAll('main *, header *, footer *').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.width === 0 || r.height === 0) return;
+      const cs = getComputedStyle(el);
+      if (cs.position === 'fixed' || cs.visibility === 'hidden') return;
+      if (el.classList.contains('hero__ghost')) return;
+      const v = visibleRect(el);
+      if (v.width <= 0) return;                       // fully clipped away
+      if (v.right > vw + 1 || v.left < -1) {
+        bad.push(`${el.tagName.toLowerCase()}.${(el.className || '').toString().split(' ')[0]} ` +
+                 `left=${Math.round(v.left)} right=${Math.round(v.right)} vw=${vw}`);
+      }
+    });
+    return { vw, bad: [...new Set(bad)].slice(0, 8) };
   });
-  if (overflow.doc > overflow.client + 1) {
-    note('P0', vp.name, `Horizontal overflow ${overflow.doc}>${overflow.client}: ${overflow.bad.join(' | ')}`);
+  if (overflow.bad.length) {
+    note('P0', vp.name, `Content extends past the viewport (clipped, not scrollable): ${overflow.bad.join(' | ')}`);
   }
 
   /* --- links, numbers, anchors --- */
