@@ -453,6 +453,48 @@ address{font-style:normal;}
 .reviews__qual{font-size:.72rem;line-height:1.4;color:var(--steel);}
 .reviews__go{color:var(--steel);flex:none;}
 
+
+/* ------------------------------- REVIEWS -------------------------------- */
+/* Dark, sitting between About and Contact so the proof lands immediately
+   before the conversion point. */
+.reviews-sec{padding:clamp(3.5rem,8vw,6.5rem) 0;border-top:1px solid var(--hair);}
+.reviews-sec .section-head{margin-bottom:clamp(2rem,4vw,3rem);}
+.reviews--head{margin-top:1.4rem;}
+
+.rv__wrap{max-width:var(--maxw);margin-inline:auto;padding:0 var(--pad);}
+.rv__list{
+  display:grid;gap:clamp(.9rem,2vw,1.4rem);
+  /* min() so a track minimum can never exceed its container */
+  grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));
+}
+.rv{
+  display:flex;flex-direction:column;gap:.85rem;
+  padding:clamp(1.2rem,2.4vw,1.7rem);
+  border:1px solid var(--hair);border-radius:3px;
+  background:rgba(244,242,236,.032);
+  min-width:0;
+}
+.rv__stars{color:var(--signal);font-size:.95rem;letter-spacing:.14em;line-height:1;margin:0;}
+.rv__quote{margin:0;}
+.rv__quote p{
+  margin:0;font-size:1.02rem;line-height:1.55;color:var(--warm);
+  text-wrap:pretty;
+}
+.rv__by{
+  margin:auto 0 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:.2rem .7rem;
+  padding-top:.6rem;border-top:1px solid var(--hair);
+}
+.rv__by cite{
+  font-style:normal;font-family:var(--display);font-weight:600;
+  font-size:1.06rem;letter-spacing:.04em;text-transform:uppercase;color:var(--warm);
+}
+.rv__by span{font-size:.78rem;color:var(--steel);font-variant-numeric:tabular-nums;}
+.rv__note{
+  margin-top:clamp(1.2rem,2.5vw,1.8rem);max-width:70ch;
+  font-size:.82rem;line-height:1.6;color:var(--steel);
+}
+.rv__note .link-arrow{display:inline-flex;min-height:44px;font-size:.86rem;margin-top:.2rem;}
+
 /* ------------------------------- CONTACT -------------------------------- */
 .contact{
   background:var(--warm);color:var(--ink);
@@ -1055,16 +1097,57 @@ address{font-style:normal;}
         <h2 class="section-title" id="about-title">Local care.<br>A direct conversation.</h2>
         <p class="about__body">Carriagetown Detailing is locally owned and operated by Jeff Sass, serving Amesbury and surrounding communities.</p>
         <p class="about__note">Pickup and drop-off are available. Ask the shop about arrangements for your location.</p>
-
-        <a class="reviews" href="https://maps.google.com/maps?cid=4943751189405899565" target="_blank" rel="noopener noreferrer">
-          <span class="reviews__score">4.9</span>
-          <span class="reviews__meta">
-            <span class="reviews__count">55 reviews</span>
-            <span class="reviews__qual">Google reviews shown on existing site · checked&nbsp;Sep&nbsp;2026</span>
-          </span>
-          <span class="reviews__go" aria-hidden="true">↗</span>
-        </a>
       </div>
+    </div>
+  </section>
+
+
+  <!-- ============================== REVIEWS ============================= -->
+  <section class="reviews-sec" id="reviews" aria-labelledby="reviews-title">
+    <div class="section-head">
+      <p class="eyebrow eyebrow--rule">Reviews</p>
+      <h2 class="section-title" id="reviews-title">What customers say.</h2>
+      <a class="reviews reviews--head" href="https://maps.google.com/maps?cid=4943751189405899565" target="_blank" rel="noopener noreferrer">
+        <span class="reviews__score">4.9</span>
+        <span class="reviews__meta">
+          <span class="reviews__count">55 reviews</span>
+          <span class="reviews__qual">Google reviews shown on existing site · checked&nbsp;Sep&nbsp;2026</span>
+        </span>
+        <span class="reviews__go" aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <div class="rv__wrap">
+      <ul class="rv__list">
+        <li class="rv">
+          <p class="rv__stars"><span aria-hidden="true">★★★★★</span><span class="visually-hidden">5 out of 5</span></p>
+          <blockquote class="rv__quote"><p>2nd time going and couldn&#x27;t be happier. Great work!!!! Would recommend to anyone.</p></blockquote>
+          <p class="rv__by"><cite>Tara Altgilbers</cite><span>Apr 12, 2026</span></p>
+        </li>
+        <li class="rv">
+          <p class="rv__stars"><span aria-hidden="true">★★★★★</span><span class="visually-hidden">5 out of 5</span></p>
+          <blockquote class="rv__quote"><p>Jeff is so kind, easy to communicate with and did a great job on my car and was also super…</p></blockquote>
+          <p class="rv__by"><cite>Clare Killian</cite><span>Dec 16, 2025</span></p>
+        </li>
+        <li class="rv">
+          <p class="rv__stars"><span aria-hidden="true">★★★★★</span><span class="visually-hidden">5 out of 5</span></p>
+          <blockquote class="rv__quote"><p>Carriagetown Detailing has been outstanding to our funeral home, consistently providing immaculat…</p></blockquote>
+          <p class="rv__by"><cite>Zeth Folds</cite><span>Dec 16, 2025</span></p>
+        </li>
+        <li class="rv">
+          <p class="rv__stars"><span aria-hidden="true">★★★★★</span><span class="visually-hidden">5 out of 5</span></p>
+          <blockquote class="rv__quote"><p>I had a 10/10 experience here. not only was pricing beyond reasonable, but he was flexible a…</p></blockquote>
+          <p class="rv__by"><cite>Katie Carnovale</cite><span>Dec 18, 2025</span></p>
+        </li>
+        <li class="rv">
+          <p class="rv__stars"><span aria-hidden="true">★★★★★</span><span class="visually-hidden">5 out of 5</span></p>
+          <blockquote class="rv__quote"><p>Did an absolutely amazing job on my interior! First time ive had my car professionally cleaned after h…</p></blockquote>
+          <p class="rv__by"><cite>Troy Lamontagne</cite><span>Dec 10, 2025</span></p>
+        </li>
+      </ul>
+      <p class="rv__note">Shown as they appear on the existing Carriagetown Detailing website. Four of
+        the five are excerpts, cut off at the ellipsis by the review widget itself — nothing has been
+        added or completed.<br><a class="link-arrow" href="https://maps.google.com/maps?cid=4943751189405899565" target="_blank" rel="noopener noreferrer">Read the full reviews on Google <span aria-hidden="true">↗</span></a></p>
     </div>
   </section>
 

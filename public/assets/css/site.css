@@ -420,6 +420,48 @@ address{font-style:normal;}
 .reviews__qual{font-size:.72rem;line-height:1.4;color:var(--steel);}
 .reviews__go{color:var(--steel);flex:none;}
 
+
+/* ------------------------------- REVIEWS -------------------------------- */
+/* Dark, sitting between About and Contact so the proof lands immediately
+   before the conversion point. */
+.reviews-sec{padding:clamp(3.5rem,8vw,6.5rem) 0;border-top:1px solid var(--hair);}
+.reviews-sec .section-head{margin-bottom:clamp(2rem,4vw,3rem);}
+.reviews--head{margin-top:1.4rem;}
+
+.rv__wrap{max-width:var(--maxw);margin-inline:auto;padding:0 var(--pad);}
+.rv__list{
+  display:grid;gap:clamp(.9rem,2vw,1.4rem);
+  /* min() so a track minimum can never exceed its container */
+  grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));
+}
+.rv{
+  display:flex;flex-direction:column;gap:.85rem;
+  padding:clamp(1.2rem,2.4vw,1.7rem);
+  border:1px solid var(--hair);border-radius:3px;
+  background:rgba(244,242,236,.032);
+  min-width:0;
+}
+.rv__stars{color:var(--signal);font-size:.95rem;letter-spacing:.14em;line-height:1;margin:0;}
+.rv__quote{margin:0;}
+.rv__quote p{
+  margin:0;font-size:1.02rem;line-height:1.55;color:var(--warm);
+  text-wrap:pretty;
+}
+.rv__by{
+  margin:auto 0 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:.2rem .7rem;
+  padding-top:.6rem;border-top:1px solid var(--hair);
+}
+.rv__by cite{
+  font-style:normal;font-family:var(--display);font-weight:600;
+  font-size:1.06rem;letter-spacing:.04em;text-transform:uppercase;color:var(--warm);
+}
+.rv__by span{font-size:.78rem;color:var(--steel);font-variant-numeric:tabular-nums;}
+.rv__note{
+  margin-top:clamp(1.2rem,2.5vw,1.8rem);max-width:70ch;
+  font-size:.82rem;line-height:1.6;color:var(--steel);
+}
+.rv__note .link-arrow{display:inline-flex;min-height:44px;font-size:.86rem;margin-top:.2rem;}
+
 /* ------------------------------- CONTACT -------------------------------- */
 .contact{
   background:var(--warm);color:var(--ink);

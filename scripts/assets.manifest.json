@@ -247,5 +247,14 @@
     "resolution": "The studio confirmed the two photographs are the same vehicle. A labelled before/after pair is therefore built into the work section. The page claims only what the two photographs show - the same rear seating before and after interior detailing. It makes no claim about products, technique, duration or any other outcome.",
     "assumption": "Rests on the studio's confirmation that the clean photograph is the after state of this job rather than the same car on a later visit. Worth confirming with Jeff before launch, since it is the one causal claim on the page.",
     "dirtyPhotosUsed": "Only this one, and only as the labelled BEFORE half of the pair."
+  },
+  "reviews": {
+    "source": "Google reviews as displayed by the widget on the business's own website.",
+    "captured": "2026-09-07, from owner-supplied screenshots.",
+    "shown": 5,
+    "verbatim": true,
+    "note": "Quotes are reproduced exactly as displayed, including original spelling and punctuation. Four of the five are excerpts truncated by the widget itself; the ellipsis is where the source cut off. Nothing was completed, paraphrased or invented. No reviewer avatars are used. The page states on-screen that these are excerpts and links to the full reviews on Google.",
+    "aggregate": "4.9 / 55 reviews, qualified on-page as shown on the existing site, checked Sep 2026.",
+    "beforeLaunch": "Confirm with the owner that he is happy to have these reviewers quoted on his site."
   }
 }
