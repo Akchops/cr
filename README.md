@@ -27,8 +27,22 @@ They are re-compressed and ≤836px against 2016-2048px originals — fit for re
 for launch**. `scripts/optimize-assets.mjs` clamps the responsive ladder to the real
 source width and never upscales.
 
-Still missing, rendering pending panels: **hero-black-tesla** (the hero the page is
-composed around), **black-suv**, **cargo-area**.
+Those six are the entire public gallery. The three photographs named in the brief that
+are not among them (`hero-black-tesla`, `black-suv`, `cargo-area`) do not exist in any
+obtainable form, so the page was **recomposed around what exists**. No slot renders a
+pending panel any more.
+
+The consequence worth knowing: there is **no clean exterior car photograph** in the set.
+The only exterior is the motorhome. The hero is now the Tesla cabin — a car, the
+strongest shot available, and portrait, which lets a 461px source sit near its native
+size instead of being stretched across a full-bleed hero.
+
+### On image rights
+
+Publicly visible is not the same as licensed. These remain the business's (or its
+photographer's) photographs. That is low risk for the intended use — the page is being
+sold to the owner, whose photographs they are — but it is not a basis for publishing the
+page for anyone else, or for using the shots as studio portfolio work.
 
 ### A "BEFORE" set exists on the business site
 

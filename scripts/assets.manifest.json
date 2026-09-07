@@ -8,7 +8,8 @@
     "grantedUse": "Private concept presentation to the business owner only",
     "blockedUse": "Public hosting, marketing, paid launch, redistribution",
     "actionBeforeLaunch": "Obtain written permission from Jeff Sass for each image, or replace with owner-supplied originals",
-    "screenshotNote": "Four photographs currently in the build were recovered from phone screenshots of the business website supplied by the studio. This does not change the rights position: they remain the business's (or its photographer's) images, used only in this private concept, and written permission is still required before any launch."
+    "screenshotNote": "Four photographs currently in the build were recovered from phone screenshots of the business website supplied by the studio. This does not change the rights position: they remain the business's (or its photographer's) images, used only in this private concept, and written permission is still required before any launch.",
+    "studioPosition": "The studio believes these images are free to use because they are publicly visible. Public visibility is not a licence: the photographs remain the business's (or its photographer's) property. This is low risk for the intended use - the page is being sold to the owner, whose own photographs they are - but it is NOT a basis for publishing the page for anyone else, or for using the photographs as studio portfolio work."
   },
   "photos": [
     {
@@ -171,13 +172,13 @@
     "manufacturer logos presented as partners"
   ],
   "stillMissing": {
-    "note": "These slots have no photograph and still render pending-asset panels.",
+    "note": "The studio confirmed the six recovered photographs are the entire public gallery. The three photographs named in the brief that are not among them could not be obtained, so the page was recomposed around what exists rather than left with pending panels. No slot renders a pending panel any more.",
     "ids": [
       "hero-black-tesla",
       "black-suv",
       "cargo-area"
     ],
-    "blocking": "hero-black-tesla is the hero image the whole concept is composed around."
+    "consequence": "There is no clean exterior car photograph anywhere in the set. The only exterior is the motorhome. The hero is now the Tesla cabin."
   },
   "beforeAfterFinding": {
     "observed": "The business gallery labels a group of photographs \"BEFORE\" (rear seats and a cargo area covered in hay/straw). A separate uncaptioned slide shows what appears to be the same red vehicle with clean rear seats.",
