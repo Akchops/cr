@@ -7,7 +7,8 @@
     "holder": "Presumed Carriagetown Detailing LLC or its photographer - not verified",
     "grantedUse": "Private concept presentation to the business owner only",
     "blockedUse": "Public hosting, marketing, paid launch, redistribution",
-    "actionBeforeLaunch": "Obtain written permission from Jeff Sass for each image, or replace with owner-supplied originals"
+    "actionBeforeLaunch": "Obtain written permission from Jeff Sass for each image, or replace with owner-supplied originals",
+    "screenshotNote": "Four photographs currently in the build were recovered from phone screenshots of the business website supplied by the studio. This does not change the rights position: they remain the business's (or its photographer's) images, used only in this private concept, and written permission is still required before any launch."
   },
   "photos": [
     {
@@ -20,7 +21,8 @@
       "alt": "A glossy black Tesla photographed from the front three-quarter angle inside the Carriagetown Detailing workshop.",
       "caption": "Vehicle exterior, workshop",
       "role": "hero + work sequence beat 01 + services row 03 (ceramic coatings)",
-      "used": true
+      "used": true,
+      "provenance": "original JPEG from business website (2016-2048px) - NOT YET FETCHED in this environment"
     },
     {
       "id": "tesla-interior",
@@ -32,7 +34,10 @@
       "alt": "The interior of a Tesla with white front seats and a dark dashboard, driver's door open.",
       "caption": "Cabin interior, front seats",
       "role": "work sequence beat 02",
-      "used": true
+      "used": true,
+      "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778), cropped and trimmed. Re-compressed and far below the 1536x2048 original - acceptable for review, NOT for launch. Replace with the original JPEG before any launch.",
+      "localWidth": 461,
+      "localHeight": 629
     },
     {
       "id": "cargo-area",
@@ -44,7 +49,8 @@
       "alt": "A clean vehicle cargo area photographed with the tailgate open.",
       "caption": "Cargo area, interior",
       "role": "work sequence beat 03",
-      "used": true
+      "used": true,
+      "provenance": "original JPEG from business website (2016-2048px) - NOT YET FETCHED in this environment"
     },
     {
       "id": "black-suv",
@@ -56,7 +62,8 @@
       "alt": "A black SUV photographed from the rear three-quarter angle inside the workshop.",
       "caption": "Vehicle exterior, workshop",
       "role": "work grid + services row 02 (complete detailing) + closing crop",
-      "used": true
+      "used": true,
+      "provenance": "original JPEG from business website (2016-2048px) - NOT YET FETCHED in this environment"
     },
     {
       "id": "rv-exterior",
@@ -68,7 +75,10 @@
       "alt": "A motorhome photographed outdoors.",
       "caption": "RV exterior, outdoors",
       "role": "work grid",
-      "used": true
+      "used": true,
+      "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778), cropped and trimmed. Re-compressed and far below the 2016x1512 original - acceptable for review, NOT for launch. Replace with the original JPEG before any launch.",
+      "localWidth": 836,
+      "localHeight": 628
     },
     {
       "id": "rear-seating",
@@ -80,7 +90,8 @@
       "alt": "The rear seating area of a red vehicle, clean and unoccupied.",
       "caption": "Rear seating, interior",
       "role": "about section",
-      "used": true
+      "used": true,
+      "provenance": "original JPEG from business website (2016-2048px) - NOT YET FETCHED in this environment"
     },
     {
       "id": "gmc-interior",
@@ -92,7 +103,10 @@
       "alt": "A vehicle interior with dark seats and dashboard.",
       "caption": "Cabin interior, dark trim",
       "role": "services row 01 (interior detailing)",
-      "used": true
+      "used": true,
+      "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778), cropped and trimmed. Re-compressed and far below the 2016x1512 original - acceptable for review, NOT for launch. Replace with the original JPEG before any launch.",
+      "localWidth": 836,
+      "localHeight": 621
     },
     {
       "id": "pale-interior",
@@ -104,7 +118,23 @@
       "alt": "A vehicle interior with pale seats and wood dashboard trim.",
       "caption": "Cabin interior, pale seats",
       "role": "reserve - not placed (7 of 8 photos used)",
-      "used": false
+      "used": false,
+      "provenance": "original JPEG from business website (2016-2048px) - NOT YET FETCHED in this environment"
+    },
+    {
+      "id": "ford-interior",
+      "file": "ford-interior.jpg",
+      "w": 874,
+      "h": 612,
+      "orientation": "landscape",
+      "url": "not captured - appears in the site photo gallery",
+      "alt": "The interior of a Ford truck with dark leather seats and a grey dashboard.",
+      "caption": "Cabin interior, truck",
+      "role": "work grid",
+      "used": true,
+      "localWidth": 874,
+      "localHeight": 612,
+      "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778), cropped and trimmed. Original JPEG URL not captured during research. Confirm with the owner and obtain the original before any launch."
     }
   ],
   "logo": {
@@ -122,5 +152,15 @@
     "stock photography",
     "invented staff portraits",
     "manufacturer logos presented as partners"
-  ]
+  ],
+  "stillMissing": {
+    "note": "These four slots have no photograph and still render pending-asset panels.",
+    "ids": [
+      "hero-black-tesla",
+      "black-suv",
+      "cargo-area",
+      "rear-seating"
+    ],
+    "blocking": "hero-black-tesla is the hero image the whole concept is composed around."
+  }
 }

@@ -18,6 +18,17 @@ npm run qa       # render + inspect at 1440/768/390/360, reduced-motion, no-JS
 
 `npm run dev` serves `public/` and sends `X-Robots-Tag: noindex, nofollow, noarchive`.
 
+## Photograph status
+
+Four photos (GMC interior, RV exterior, Tesla interior, Ford truck interior) were
+recovered from owner-supplied phone screenshots of the live site and are in the build.
+They are re-compressed and ≤836px against 2016-2048px originals — fit for review, **not
+for launch**. `scripts/optimize-assets.mjs` clamps the responsive ladder to the real
+source width and never upscales.
+
+Still missing, rendering pending panels: **hero-black-tesla** (the hero the page is
+composed around), **black-suv**, **cargo-area**, **rear-seating**.
+
 ## Photographs are not in this repository
 
 `npm run assets` downloads them from the business's own site at build time. They are

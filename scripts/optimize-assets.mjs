@@ -25,6 +25,7 @@ const PLAN = {
   'rear-seating':     { widths: [480, 800, 1200],        ratio: 3 / 4,  position: 'attention' },
   'gmc-interior':     { widths: [480, 800, 1400],        ratio: 4 / 3,  position: 'centre' },
   'pale-interior':    { widths: [480, 800, 1200],        ratio: 3 / 4,  position: 'attention' },
+  'ford-interior':    { widths: [480, 800, 1400],        ratio: 4 / 3,  position: 'centre' },
 };
 
 const present = new Set(await readdir(rawDir).catch(() => []));
@@ -35,7 +36,18 @@ for (const photo of manifest.photos) {
   const plan = PLAN[photo.id];
   const src = join(rawDir, photo.file);
 
-  for (const w of plan.widths) {
+  // Never upscale: a screenshot-recovered source must not be inflated to a
+  // width it does not have. Clamp the ladder to the real source width.
+  const meta = await sharp(src).metadata();
+  const srcW = meta.width || 0;
+  let widths = plan.widths.filter(w => w <= srcW);
+  if (!widths.length) widths = [srcW];
+  else if (widths[widths.length - 1] < srcW && srcW - widths[widths.length - 1] > 80) widths.push(srcW);
+  if (widths.length < plan.widths.length) {
+    console.log(`      ${photo.id}: source is ${srcW}px — ladder clamped, no upscaling`);
+  }
+
+  for (const w of widths) {
     const h = Math.round(w / plan.ratio);
     const base = sharp(src).rotate()
       .resize(w, h, { fit: 'cover', position: plan.position })
@@ -48,7 +60,7 @@ for (const photo of manifest.photos) {
       .toFile(join(outDir, `${photo.id}-${w}.webp`));
     made += 2;
   }
-  console.log(`ok    ${photo.id}  ${plan.widths.join('/')}`);
+  console.log(`ok    ${photo.id}  ${widths.join('/')}`);
 }
 
 // logo: native size only, never upscaled

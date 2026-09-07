@@ -64,10 +64,17 @@ Automated assertions, all passing:
 
 ## Not tested, and why
 
-- **The photographs themselves.** `img1.wsimg.com` is blocked by this session's egress
-  policy, so no vehicle image could be downloaded, optimised or visually judged. Crops,
-  art direction and the hero weight budget are therefore **unverified**. Every slot holds
-  the correct aspect ratio and a labelled pending panel instead.
+- **The hero and three other photographs.** `img1.wsimg.com` remains blocked by this
+  session's egress policy. Four photos were recovered from owner-supplied phone
+  screenshots of the live site (see below) and are now in the build; the hero image,
+  the black SUV exterior, the cargo area and the red rear seating are still absent and
+  render pending panels. Because the hero is missing, hero crop and hero weight budget
+  are still **unverified**.
+
+- **Resolution of the recovered four.** They come from 1284x2778 iPhone screenshots, so
+  they are re-compressed and 836px wide at best against 2016-2048px originals. They
+  render acceptably at 1x but are soft on a 2x display. The optimiser refuses to
+  upscale them. They are fit for review, **not for launch**.
 - **Real iOS/Android handsets.** `sms:` and `tel:` are correct in markup and verified in
   Chromium, but dialler/messaging hand-off was not exercised on a physical device.
   Both numbers are shown as plain copyable text as a fallback.

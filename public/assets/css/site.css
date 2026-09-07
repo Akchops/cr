@@ -549,7 +549,7 @@ address{font-style:normal;}
     border:1px solid var(--hair);
   }
   .stage.is-pinned .shot--stage .shot__cap{
-    margin:0 0 .35rem;max-width:15ch;text-align:left;flex:none;
+    margin:0 0 .35rem;max-width:19ch;text-align:left;flex:none;
   }
   .stage.is-pinned .shot--stage .shot__cap b{
     display:block;margin:0 0 .3rem;font-size:1.05rem;letter-spacing:.06em;
