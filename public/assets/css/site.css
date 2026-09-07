@@ -256,7 +256,7 @@ address{font-style:normal;}
 
 .work-grid{
   max-width:var(--maxw);margin:clamp(2.5rem,5vw,4rem) auto 0;padding:0 var(--pad);
-  display:grid;gap:clamp(1rem,2.5vw,1.6rem);align-items:start;
+  display:grid;gap:clamp(1rem,2.5vw,1.6rem);
 }
 
 /* ------------------------------- SERVICES ------------------------------- */
@@ -488,17 +488,16 @@ address{font-style:normal;}
   .svc__foot{gap:1.2rem;}
 }
 
-@media (max-width:959px){
-  .hero__figure{max-width:430px;}
-}
-
 /* ---- Desktop ---- */
 @media (min-width:960px){
   :root{--hdr:72px;}
 
   .hero{padding-top:clamp(3.5rem,7.5vw,7rem);}
-  .hero__inner{grid-template-columns:minmax(0,1fr) minmax(0,.62fr);align-items:center;}
-  .hero__figure{max-width:440px;justify-self:end;width:100%;}
+  .hero__inner{grid-template-columns:minmax(0,.72fr) minmax(0,1fr);align-items:center;}
+  /* Hold the intended breaks: "Every detail." / "In focus." stay one line each,
+     so the display size is capped to what the narrower text column can carry. */
+  .hero__title{font-size:clamp(2.8rem,1.6rem + 5.2vw,6.2rem);}
+  .hero__title .line__i{white-space:nowrap;}
   /* Large background word. The image frame overlaps its lower half, so it
      reads as a watermark and never sits under the headline or the CTAs. */
   .hero__ghost{

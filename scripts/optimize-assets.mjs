@@ -27,6 +27,8 @@ const PLAN = {
   'pale-interior':    { widths: [480, 800, 1200],        ratio: 3 / 4,  position: 'attention' },
   'ford-interior':    { widths: [480, 800, 1400],        ratio: 4 / 3,  position: 'centre' },
   'jeep-interior':    { widths: [480, 800, 1200],        ratio: 3 / 4,  position: 'attention' },
+  'corvette':         { widths: [480, 800, 1400],        ratio: 4 / 3,  position: 'centre' },
+  'bentley':          { widths: [480, 800, 1400],        ratio: 4 / 3,  position: 'centre' },
 };
 
 const present = new Set(await readdir(rawDir).catch(() => []));

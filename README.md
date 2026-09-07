@@ -20,22 +20,19 @@ npm run qa       # render + inspect at 1440/768/390/360, reduced-motion, no-JS
 
 ## Photograph status
 
-Six photos (GMC interior, RV exterior, Tesla interior, Ford truck interior, red-car rear
-seating, Jeep interior) were recovered from owner-supplied phone screenshots of the live
-site and are in the build.
+Ten photos were recovered from owner-supplied phone screenshots of the live site and are
+in the build: the black Tesla exterior (the hero), a black SUV, a black sports car, a dark
+blue saloon, the RV, and five interiors (Tesla, GMC, Ford truck, Jeep, red-car rear
+seating).
 They are re-compressed and ≤836px against 2016-2048px originals — fit for review, **not
 for launch**. `scripts/optimize-assets.mjs` clamps the responsive ladder to the real
 source width and never upscales.
 
-Those six are the entire public gallery. The three photographs named in the brief that
-are not among them (`hero-black-tesla`, `black-suv`, `cargo-area`) do not exist in any
-obtainable form, so the page was **recomposed around what exists**. No slot renders a
-pending panel any more.
+Every slot on the page carries a real photograph. Only `cargo-area` was never obtained,
+and nothing references it.
 
-The consequence worth knowing: there is **no clean exterior car photograph** in the set.
-The only exterior is the motorhome. The hero is now the Tesla cabin — a car, the
-strongest shot available, and portrait, which lets a 461px source sit near its native
-size instead of being stretched across a full-bleed hero.
+One edit beyond cropping: the customer licence plate on the dark blue saloon is blurred
+for privacy. Nothing about any vehicle's condition or apparent service result is altered.
 
 ### On image rights
 

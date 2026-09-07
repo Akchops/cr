@@ -23,7 +23,9 @@
       "caption": "Vehicle exterior, workshop",
       "role": "hero + work sequence beat 01 + services row 03 (ceramic coatings)",
       "used": true,
-      "provenance": "original JPEG from business website (2016-2048px) - NOT YET FETCHED in this environment"
+      "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778), cropped and trimmed. Re-compressed and below the original - fit for review, NOT for launch. Replace with the original JPEG before any launch.",
+      "localWidth": 834,
+      "localHeight": 633
     },
     {
       "id": "tesla-interior",
@@ -64,7 +66,9 @@
       "caption": "Vehicle exterior, workshop",
       "role": "work grid + services row 02 (complete detailing) + closing crop",
       "used": true,
-      "provenance": "original JPEG from business website (2016-2048px) - NOT YET FETCHED in this environment"
+      "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778), cropped and trimmed. Re-compressed and below the original - fit for review, NOT for launch. Replace with the original JPEG before any launch.",
+      "localWidth": 834,
+      "localHeight": 619
     },
     {
       "id": "rv-exterior",
@@ -153,6 +157,36 @@
       "localWidth": 496,
       "localHeight": 619,
       "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778), cropped and trimmed. Re-compressed and well below the original - acceptable for review, NOT for launch. Replace with the original JPEG before any launch. Possibly the same photograph as the manifest entry \"pale-interior\" (described as pale seats with wood dash trim), but the identification is NOT confirmed, so it is recorded as its own entry rather than claiming that URL."
+    },
+    {
+      "id": "corvette",
+      "file": "corvette.jpg",
+      "w": 751,
+      "h": 630,
+      "orientation": "landscape",
+      "url": "not captured - appears in the site photo gallery",
+      "alt": "A glossy black sports car photographed from a low side angle inside the workshop, with the Carriagetown Detailing sign on the wall behind.",
+      "caption": "Vehicle exterior, workshop",
+      "role": "services row 03 (ceramic coatings)",
+      "used": true,
+      "localWidth": 751,
+      "localHeight": 630,
+      "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778), cropped and trimmed. Re-compressed and below the original - fit for review, NOT for launch. Replace with the original JPEG before any launch."
+    },
+    {
+      "id": "bentley",
+      "file": "bentley.jpg",
+      "w": 835,
+      "h": 633,
+      "orientation": "landscape",
+      "url": "not captured - appears in the site photo gallery",
+      "alt": "A dark blue saloon photographed outside the shop with the driver's door open.",
+      "caption": "Vehicle exterior, outside the shop",
+      "role": "work grid + closing crop",
+      "used": true,
+      "localWidth": 835,
+      "localHeight": 633,
+      "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778), cropped and trimmed. Re-compressed and below the original - fit for review, NOT for launch. Replace with the original JPEG before any launch. The customer licence plate has been blurred for privacy; nothing about the vehicle's condition or the apparent service result is altered."
     }
   ],
   "logo": {
@@ -172,13 +206,10 @@
     "manufacturer logos presented as partners"
   ],
   "stillMissing": {
-    "note": "The studio confirmed the six recovered photographs are the entire public gallery. The three photographs named in the brief that are not among them could not be obtained, so the page was recomposed around what exists rather than left with pending panels. No slot renders a pending panel any more.",
+    "note": "Only cargo-area is still unavailable, and nothing references it. Every slot on the page carries a real photograph.",
     "ids": [
-      "hero-black-tesla",
-      "black-suv",
       "cargo-area"
-    ],
-    "consequence": "There is no clean exterior car photograph anywhere in the set. The only exterior is the motorhome. The hero is now the Tesla cabin."
+    ]
   },
   "beforeAfterFinding": {
     "observed": "The business gallery labels a group of photographs \"BEFORE\" (rear seats and a cargo area covered in hay/straw). A separate uncaptioned slide shows what appears to be the same red vehicle with clean rear seats.",
