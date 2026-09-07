@@ -187,6 +187,22 @@
       "localWidth": 835,
       "localHeight": 633,
       "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778), cropped and trimmed. Re-compressed and below the original - fit for review, NOT for launch. Replace with the original JPEG before any launch. The customer licence plate has been blurred for privacy; nothing about the vehicle's condition or the apparent service result is altered."
+    },
+    {
+      "id": "shop-floor",
+      "file": "shop-floor.jpg",
+      "w": 881,
+      "h": 620,
+      "orientation": "landscape",
+      "url": "not captured - appears in the site photo gallery",
+      "alt": "The Carriagetown Detailing workshop with several vehicles in for service and the shop sign on the wall.",
+      "caption": "The workshop, Amesbury",
+      "role": "RECOVERED BUT NOT PLACED",
+      "used": false,
+      "localWidth": 881,
+      "localHeight": 620,
+      "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778).",
+      "notPlacedReason": "Judged the weakest image in the set and left off the page. It is dimmer and flatter than the rest, has no single subject, and the floor clutter (a rag, a creeper, loose cables) reads as untidy on a page whose argument is \"every detail, in focus\". The workshop authenticity it would add is already carried by better photographs: the hero Tesla has the shop behind it, the sports car has the Carriagetown sign on the wall, and the SUV is in a bay. Available to place in the about section on request - it would need the two visible customer licence plates blurred first, as was done for the saloon."
     }
   ],
   "logo": {
