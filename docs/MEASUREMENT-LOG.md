@@ -4,7 +4,7 @@ Local note only. No analytics backend, no pixel, no fingerprinting.
 
 | Field | Value |
 |---|---|
-| Production minutes (build → QA green) | ~75 min |
+| Production minutes (build → QA green) | ~150 min across sessions |
 | Blocked-asset overhead inside that | ~10 min |
 | First-contact date | — not contacted |
 | First-contact channel | — planned: Facebook page message |
@@ -17,7 +17,7 @@ Local note only. No analytics backend, no pixel, no fingerprinting.
 | Offer made | — |
 | Outcome | — |
 | Revision time | — |
-| Total time spent | ~75 min |
+| Total time spent | ~150 min |
 
 ## Notes
 
@@ -25,4 +25,10 @@ Local note only. No analytics backend, no pixel, no fingerprinting.
 - 2026-09-07 — Photographs could not be fetched: `img1.wsimg.com` denied by this
   session's egress policy (403 on CONNECT). Pipeline written and ready; page ships with
   labelled pending-asset panels rather than substitute imagery.
-- Outreach deliberately not started — the page is not presentable without photographs.
+- 2026-09-07 — Ten photographs recovered from owner-supplied screenshots. Page recomposed,
+  then restored to the briefed hero once the black Tesla exterior arrived.
+- 2026-09-07 — Studio confirmed the before/after pair is the same vehicle; pair built.
+- 2026-09-07 — Studio supplied the price list and directed that it be treated as
+  authoritative. Prices are on the page. To be confirmed with Jeff before launch.
+- 2026-09-07 — Private preview published as a Claude artifact (owner-only until shared).
+- Outreach still not started. No contact with Jeff from this session.

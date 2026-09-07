@@ -1,8 +1,18 @@
 /* Renders the built page and inspects the ACTUAL rendered result. */
 import { chromium } from 'playwright';
 import { mkdir, writeFile } from 'node:fs/promises';
+import http from 'node:http';
+import handler from 'serve-handler';
 
-const BASE = process.env.QA_URL || 'http://localhost:4173/';
+// QA owns its own server so a run never depends on one already being up.
+const PORT = Number(process.env.QA_PORT || 4178);
+const server = http.createServer((req, res) => {
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+  return handler(req, res, { public: 'public', cleanUrls: true });
+});
+await new Promise((res, rej) => { server.once('error', rej); server.listen(PORT, res); });
+
+const BASE = process.env.QA_URL || `http://localhost:${PORT}/`;
 const OUT = 'qa/screenshots';
 await mkdir(OUT, { recursive: true });
 
@@ -298,6 +308,7 @@ for (const vp of VIEWPORTS) {
 }
 
 await browser.close();
+server.close();
 
 const p0 = findings.filter(f => f.level === 'P0');
 const p1 = findings.filter(f => f.level === 'P1');

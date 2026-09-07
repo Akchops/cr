@@ -324,6 +324,53 @@ address{font-style:normal;}
 .svc__note{color:var(--steel-dk);max-width:48ch;}
 .svc__disclosure{font-size:.8rem;line-height:1.55;color:var(--steel-dk);max-width:54ch;}
 
+
+/* -------------------------------- PRICES -------------------------------- */
+.prices{
+  margin-top:1rem;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:0 clamp(1.2rem,3vw,2.6rem);max-width:540px;
+}
+.prices__row{
+  display:flex;align-items:baseline;gap:.75rem;
+  padding:.45rem 0;border-bottom:1px solid var(--hair-lt);
+}
+.prices__row dt{color:var(--steel-dk);font-size:.92rem;}
+.prices__row dd{
+  margin:0 0 0 auto;font-weight:600;font-size:1rem;
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.prices__note{margin-top:.65rem;font-size:.78rem;color:var(--steel-dk);max-width:46ch;}
+.prices--stack{grid-template-columns:1fr;max-width:none;margin-top:.6rem;}
+
+/* --------------------------- ALSO AVAILABLE ----------------------------- */
+.also{
+  max-width:var(--maxw);margin:clamp(2.2rem,4.5vw,3.4rem) auto 0;padding:0 var(--pad);
+}
+.also__title{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(1.5rem,1.2rem + 1.1vw,2rem);
+  letter-spacing:.03em;text-transform:uppercase;
+  margin:0 0 1.2rem;padding-top:1.4rem;border-top:1px solid var(--hair-lt);
+}
+.also__list{
+  display:grid;gap:clamp(1.2rem,3vw,2rem);
+  grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+}
+.also__name{
+  font-family:var(--display);font-weight:700;font-size:1.3rem;
+  line-height:1.1;letter-spacing:.01em;margin:0;
+}
+.also__single{
+  margin-top:.6rem;font-family:var(--display);font-weight:700;
+  font-size:1.65rem;line-height:1.1;font-variant-numeric:tabular-nums;
+}
+.also__single span{
+  display:block;font-family:var(--body);font-weight:500;
+  font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--steel-dk);margin-top:.2rem;
+}
+
 /* -------------------------------- ABOUT --------------------------------- */
 .about{padding:clamp(3.5rem,8vw,7rem) 0;}
 .about__inner{
