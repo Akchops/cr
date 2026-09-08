@@ -15,7 +15,18 @@
 
 
 
-<rect width='32' height='32' fill='%23101113'/><path d='M4 22h24M9 22a2.5 2.5 0 1 0 5 0 2.5 2.5 0 0 0-5 0m11 0a2.5 2.5 0 1 0 5 0 2.5 2.5 0 0 0-5 0M8 22v-8h11l5 4v4M11 14v-4h6v4' fill='none' stroke='%23F4D64E' stroke-width='1.7' stroke-linecap='square'/></svg>">
+
+<style id="loader-critical">
+  .loader{position:fixed;inset:0;z-index:999;background:#101113;
+    display:grid;place-items:center;padding:2rem;}
+  html.is-loading,html.is-loading body{overflow:hidden !important;}
+  .loader[hidden]{display:none !important;}
+</style>
+<noscript><style>
+  /* No script means nothing can ever dismiss the loader, so it must not exist.
+     is-loading is only ever added by script, so scrolling is unaffected. */
+  #loader{display:none !important;}
+</style></noscript>
 
 
 <script>
@@ -243,6 +254,61 @@ address{font-style:normal;}
 .shot__pending--light::after{color:#8a7413;}
 
 
+
+
+/* ================================ LOADER ================================
+   Covers the page only while the hero photograph and the webfonts are
+   genuinely becoming ready. Fixed, so removing it shifts nothing.        */
+.loader{
+  position:fixed;inset:0;z-index:999;background:var(--ink);
+  display:grid;place-items:center;padding:2rem;
+  clip-path:inset(0 0 0 0);
+}
+.loader__inner{display:grid;justify-items:center;gap:.9rem;width:min(300px,80vw);}
+.loader__mark{color:var(--signal);line-height:0;}
+.loader__word{
+  margin:0;font-family:var(--display);font-weight:700;
+  font-size:clamp(1.5rem,1.2rem + 1.4vw,2rem);
+  letter-spacing:.14em;text-transform:uppercase;color:var(--warm);
+}
+.loader__bar{
+  width:100%;height:2px;background:rgba(244,242,236,.14);overflow:hidden;border-radius:1px;
+}
+.loader__fill{
+  display:block;height:100%;width:100%;background:var(--signal);
+  transform:scaleX(0);transform-origin:left;
+}
+.loader__pct{
+  margin:0;font-size:.72rem;font-weight:600;letter-spacing:.18em;
+  color:var(--steel);font-variant-numeric:tabular-nums;
+}
+
+/* Exit: the panel clips upward and the mark lifts with it. Deliberate,
+   and the same mask language the rest of the page uses. */
+.loader.is-out{
+  clip-path:inset(0 0 100% 0);
+  transition:clip-path .62s cubic-bezier(.7,0,.16,1);
+}
+.loader.is-quick.is-out{transition-duration:.38s;}
+.loader.is-out .loader__inner{
+  opacity:0;transform:translateY(-14px);
+  transition:opacity .3s var(--ease),transform .45s var(--ease);
+}
+@media (prefers-reduced-motion:reduce){
+  .loader.is-out{clip-path:none;transition:none;opacity:0;}
+  .loader.is-out .loader__inner{transition:none;}
+  .loader__fill{transition:none !important;}
+}
+
+/* Before/after: hold the frame at its final size and show a neutral surface
+   until both photographs are usable. No broken icons, no early divider. */
+.ba__pair.is-waiting .ba__seam{display:none !important;}
+.ba__pair.is-waiting::after{
+  content:"";position:absolute;inset:0;z-index:3;
+  background:
+    repeating-linear-gradient(135deg,rgba(138,146,154,.07) 0 1px,transparent 1px 10px),
+    var(--ink-2);
+}
 
 /* --------------------------------- HERO --------------------------------- */
 .hero{position:relative;overflow:hidden;padding:clamp(2.2rem,5vw,4.5rem) 0 clamp(3rem,6vw,5.5rem);}
@@ -926,6 +992,113 @@ address{font-style:normal;}
 
 </style>
 
+<div class="loader" id="loader" role="status" aria-label="Loading Carriagetown Detailing">
+  <div class="loader__inner">
+    <span class="loader__mark" aria-hidden="true">
+      <svg viewBox="0 0 34 24" width="44" height="31" focusable="false">
+        <path d="M2 18h30M7 18a3 3 0 1 0 6 0 3 3 0 0 0-6 0m14 0a3 3 0 1 0 6 0 3 3 0 0 0-6 0M6 18V9h13l6 5v4M9 9V5h7v4"
+              fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/>
+      </svg>
+    </span>
+    <p class="loader__word" aria-hidden="true">Carriagetown</p>
+    <div class="loader__bar" aria-hidden="true"><span class="loader__fill" data-fill></span></div>
+    <p class="loader__pct" aria-hidden="true"><span data-pct>0</span>%</p>
+  </div>
+</div>
+
+<script>
+/* The loader runs from here, not from site.js, so it starts before the main
+   bundle has even been parsed. Self-contained on purpose. */
+(function () {
+  var el = document.getElementById('loader');
+  var root = document.documentElement;
+  function done() {
+    window.__ctReady = true;
+    document.dispatchEvent(new CustomEvent('ct:ready'));
+  }
+  if (!el) { done(); return; }
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  root.classList.add('is-loading');
+
+  var fill = el.querySelector('[data-fill]');
+  var pctEl = el.querySelector('[data-pct]');
+  var started = Date.now(), SAFETY = 2500;   // + ~0.9s of finish and exit
+  // keeps the worst case under about 3.4s of visible loader
+
+  /* Weighted real milestones adding to 92. The last 8 is only awarded once
+     everything has settled, so the number cannot claim completion early. */
+  var target = 0;
+  function bump(w) { target = Math.min(92, target + w); }
+  bump(10);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { bump(18); }, { once: true });
+  } else { bump(18); }
+
+  function imgReady(img) {
+    return new Promise(function (res) {
+      if (!img) return res(false);
+      if (img.complete) return res(img.naturalWidth > 0);
+      img.addEventListener('load', function () { res(true); }, { once: true });
+      img.addEventListener('error', function () { res(false); }, { once: true });
+    });
+  }
+
+  var waits = [];
+  if (document.fonts && document.fonts.ready) {
+    waits.push(document.fonts.ready.then(function () { bump(30); }, function () { bump(30); }));
+  } else { bump(30); }
+
+  function watchHero() {
+    var img = document.querySelector('[data-hero-figure] img');
+    if (!img) { bump(34); return Promise.resolve(); }
+    return imgReady(img).then(function () {
+      bump(20);
+      var d = img.decode ? img.decode() : Promise.resolve();
+      return d.catch(function () {}).then(function () { bump(14); });
+    });
+  }
+  // The hero markup may not be parsed yet when this runs.
+  if (document.querySelector('[data-hero-figure] img')) {
+    waits.push(watchHero());
+  } else {
+    waits.push(new Promise(function (res) {
+      document.addEventListener('DOMContentLoaded', function () { watchHero().then(res); }, { once: true });
+    }));
+  }
+
+  var settled = false, exited = false, shown = 0;
+  function frame() {
+    var goal = settled ? 100 : target;
+    var ease = (Date.now() - started) < 320 ? 0.5 : 0.16;
+    shown += (goal - shown) * ease;
+    if (goal - shown < 0.4) shown = goal;
+    if (pctEl) pctEl.textContent = String(Math.round(shown));
+    if (fill) fill.style.transform = 'scaleX(' + (shown / 100).toFixed(4) + ')';
+    if (settled && shown >= 99.6) { exit(); return; }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  function exit() {
+    if (exited) return;
+    exited = true;
+    if (pctEl) pctEl.textContent = '100';
+    if (fill) fill.style.transform = 'scaleX(1)';
+    var quick = (Date.now() - started) < 700;
+    if (quick) el.classList.add('is-quick');
+    el.classList.add('is-out');
+    window.setTimeout(function () {
+      root.classList.remove('is-loading');
+      if (el.parentNode) el.parentNode.removeChild(el);
+      done();
+    }, reduced ? 0 : (quick ? 380 : 620));
+  }
+
+  Promise.all(waits).then(function () { settled = true; });
+  window.setTimeout(function () { settled = true; }, SAFETY);
+})();
+</script>
+
 <a class="skip-link" href="#main">Skip to content</a>
 
 <!-- ============================== HEADER ============================== -->
@@ -1419,6 +1592,25 @@ address{font-style:normal;}
 
   function prefersReduced() { return reduced.matches; }
 
+
+  /* --------------------------------------------------- readiness plumbing */
+  /* The loader is an inline script in the document so it can start before
+     this bundle is parsed. Here we only observe when it has finished. */
+  function onReady(fn) {
+    if (window.__ctReady) fn();
+    else document.addEventListener('ct:ready', fn, { once: true });
+  }
+  /* Resolves true when an image is painted, false when it fails. Never hangs:
+     a cached image resolves immediately, a broken one resolves false. */
+  function imgReady(img) {
+    return new Promise(function (resolve) {
+      if (!img) return resolve(false);
+      if (img.complete) return resolve(img.naturalWidth > 0);
+      img.addEventListener('load', function () { resolve(true); }, { once: true });
+      img.addEventListener('error', function () { resolve(false); }, { once: true });
+    });
+  }
+
   /* ------------------------------------------------------------------ menu */
   (function mobileMenu() {
     var toggle = document.querySelector('.nav-toggle');
@@ -1522,11 +1714,20 @@ address{font-style:normal;}
     }
     if (prefersReduced()) { open(); return; }
 
-    var net = window.setTimeout(open, 1400);   // safety net armed first
+    // If the loader has already finished - which happens on a slow device
+    // where this bundle parses after the reveal - the hero is on screen
+    // already, so arming it now would animate something the visitor can see.
+    if (window.__ctReady) { open(); return; }
+
+    // Otherwise arm at once, so the hero is never glimpsed half-built behind
+    // the loader, and open when the loader steps aside.
     hero.classList.add('is-arming');
     fig.classList.add('is-arming');
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () { window.clearTimeout(net); open(); });
+    var net = window.setTimeout(open, 5000);   // nothing can strand it hidden
+    onReady(function () {
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { window.clearTimeout(net); open(); });
+      });
     });
   })();
 
@@ -1542,8 +1743,44 @@ address{font-style:normal;}
     var range = control.querySelector('.ba__range');
     if (!range) return;
 
+    var beforeImg = pair.querySelector('.ba__half--before img');
+    var afterImg = pair.querySelector('.ba__half--after img');
+
+    // Collapse to the single frame straight away so its dimensions are final,
+    // but hold the seam and the control behind a neutral surface until both
+    // photographs are actually usable. No broken icons, no early divider.
     pair.classList.add('is-compare');
-    control.hidden = false;
+    var cached = [beforeImg, afterImg].every(function (i) { return i && i.complete && i.naturalWidth > 0; });
+    if (!cached) pair.classList.add('is-waiting');
+
+    function settle(ok) {
+      if (pair.dataset.settled) return;
+      pair.dataset.settled = '1';
+      pair.classList.remove('is-waiting');
+      if (ok) {
+        control.hidden = false;              // slider only once both are real
+      } else {
+        // One of the pair is unusable, so offer the plain side-by-side layout
+        // rather than a comparison that cannot work.
+        pair.classList.remove('is-compare');
+      }
+    }
+
+    function begin() {
+      // The after layer starts fully clipped, and a browser will not fetch a
+      // lazy image that renders no pixels - so it would never load and the
+      // placeholder would sit there forever. Fetch both explicitly once the
+      // hero has had its turn at the bandwidth.
+      [beforeImg, afterImg].forEach(function (i) { if (i) i.loading = 'eager'; });
+      Promise.all([imgReady(beforeImg), imgReady(afterImg)]).then(function (ok) {
+        settle(ok[0] && ok[1]);
+      });
+      // Nothing may leave the placeholder up indefinitely.
+      window.setTimeout(function () {
+        settle(!!(beforeImg && beforeImg.naturalWidth && afterImg && afterImg.naturalWidth));
+      }, 6000);
+    }
+    if (cached) begin(); else onReady(begin);
 
     var pos = 0;
     function set(v, fromInput) {

@@ -64,7 +64,9 @@ const head = headMatch[1]
   .replace(/<meta name="viewport"[^>]*>/g, '')
   .replace(/<link rel="preload"[^>]*>/g, '')            // everything is inline now
   .replace(/<link rel="stylesheet"[^>]*>/g, '')
-  .replace(/<link rel="icon"[^>]*>/g, '');
+  .replace(/<link rel="icon"\s+href="[^"]*"\s*\/?>/g, '');   // href holds an
+  // inline SVG full of ">" characters, so the match must run to the closing
+  // quote, not to the first ">" it meets.
 
 const body = bodyMatch[1]
   .replace(/<script src="assets\/js\/[^"]*"[^>]*><\/script>/g, '');

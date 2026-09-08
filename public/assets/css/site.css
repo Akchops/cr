@@ -211,6 +211,61 @@ address{font-style:normal;}
 
 
 
+
+/* ================================ LOADER ================================
+   Covers the page only while the hero photograph and the webfonts are
+   genuinely becoming ready. Fixed, so removing it shifts nothing.        */
+.loader{
+  position:fixed;inset:0;z-index:999;background:var(--ink);
+  display:grid;place-items:center;padding:2rem;
+  clip-path:inset(0 0 0 0);
+}
+.loader__inner{display:grid;justify-items:center;gap:.9rem;width:min(300px,80vw);}
+.loader__mark{color:var(--signal);line-height:0;}
+.loader__word{
+  margin:0;font-family:var(--display);font-weight:700;
+  font-size:clamp(1.5rem,1.2rem + 1.4vw,2rem);
+  letter-spacing:.14em;text-transform:uppercase;color:var(--warm);
+}
+.loader__bar{
+  width:100%;height:2px;background:rgba(244,242,236,.14);overflow:hidden;border-radius:1px;
+}
+.loader__fill{
+  display:block;height:100%;width:100%;background:var(--signal);
+  transform:scaleX(0);transform-origin:left;
+}
+.loader__pct{
+  margin:0;font-size:.72rem;font-weight:600;letter-spacing:.18em;
+  color:var(--steel);font-variant-numeric:tabular-nums;
+}
+
+/* Exit: the panel clips upward and the mark lifts with it. Deliberate,
+   and the same mask language the rest of the page uses. */
+.loader.is-out{
+  clip-path:inset(0 0 100% 0);
+  transition:clip-path .62s cubic-bezier(.7,0,.16,1);
+}
+.loader.is-quick.is-out{transition-duration:.38s;}
+.loader.is-out .loader__inner{
+  opacity:0;transform:translateY(-14px);
+  transition:opacity .3s var(--ease),transform .45s var(--ease);
+}
+@media (prefers-reduced-motion:reduce){
+  .loader.is-out{clip-path:none;transition:none;opacity:0;}
+  .loader.is-out .loader__inner{transition:none;}
+  .loader__fill{transition:none !important;}
+}
+
+/* Before/after: hold the frame at its final size and show a neutral surface
+   until both photographs are usable. No broken icons, no early divider. */
+.ba__pair.is-waiting .ba__seam{display:none !important;}
+.ba__pair.is-waiting::after{
+  content:"";position:absolute;inset:0;z-index:3;
+  background:
+    repeating-linear-gradient(135deg,rgba(138,146,154,.07) 0 1px,transparent 1px 10px),
+    var(--ink-2);
+}
+
 /* --------------------------------- HERO --------------------------------- */
 .hero{position:relative;overflow:hidden;padding:clamp(2.2rem,5vw,4.5rem) 0 clamp(3rem,6vw,5.5rem);}
 .hero::before{

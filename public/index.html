@@ -21,6 +21,17 @@
 <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="assets/photos/hero-black-tesla-834.avif" type="image/avif" fetchpriority="high">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23101113'/><path d='M4 22h24M9 22a2.5 2.5 0 1 0 5 0 2.5 2.5 0 0 0-5 0m11 0a2.5 2.5 0 1 0 5 0 2.5 2.5 0 0 0-5 0M8 22v-8h11l5 4v4M11 14v-4h6v4' fill='none' stroke='%23F4D64E' stroke-width='1.7' stroke-linecap='square'/></svg>">
+<style id="loader-critical">
+  .loader{position:fixed;inset:0;z-index:999;background:#101113;
+    display:grid;place-items:center;padding:2rem;}
+  html.is-loading,html.is-loading body{overflow:hidden !important;}
+  .loader[hidden]{display:none !important;}
+</style>
+<noscript><style>
+  /* No script means nothing can ever dismiss the loader, so it must not exist.
+     is-loading is only ever added by script, so scrolling is unaffected. */
+  #loader{display:none !important;}
+</style></noscript>
 <link rel="stylesheet" href="assets/css/site.css">
 
 <script>
@@ -37,6 +48,113 @@
 </script>
 </head>
 <body>
+
+<div class="loader" id="loader" role="status" aria-label="Loading Carriagetown Detailing">
+  <div class="loader__inner">
+    <span class="loader__mark" aria-hidden="true">
+      <svg viewBox="0 0 34 24" width="44" height="31" focusable="false">
+        <path d="M2 18h30M7 18a3 3 0 1 0 6 0 3 3 0 0 0-6 0m14 0a3 3 0 1 0 6 0 3 3 0 0 0-6 0M6 18V9h13l6 5v4M9 9V5h7v4"
+              fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/>
+      </svg>
+    </span>
+    <p class="loader__word" aria-hidden="true">Carriagetown</p>
+    <div class="loader__bar" aria-hidden="true"><span class="loader__fill" data-fill></span></div>
+    <p class="loader__pct" aria-hidden="true"><span data-pct>0</span>%</p>
+  </div>
+</div>
+
+<script>
+/* The loader runs from here, not from site.js, so it starts before the main
+   bundle has even been parsed. Self-contained on purpose. */
+(function () {
+  var el = document.getElementById('loader');
+  var root = document.documentElement;
+  function done() {
+    window.__ctReady = true;
+    document.dispatchEvent(new CustomEvent('ct:ready'));
+  }
+  if (!el) { done(); return; }
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  root.classList.add('is-loading');
+
+  var fill = el.querySelector('[data-fill]');
+  var pctEl = el.querySelector('[data-pct]');
+  var started = Date.now(), SAFETY = 2500;   // + ~0.9s of finish and exit
+  // keeps the worst case under about 3.4s of visible loader
+
+  /* Weighted real milestones adding to 92. The last 8 is only awarded once
+     everything has settled, so the number cannot claim completion early. */
+  var target = 0;
+  function bump(w) { target = Math.min(92, target + w); }
+  bump(10);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { bump(18); }, { once: true });
+  } else { bump(18); }
+
+  function imgReady(img) {
+    return new Promise(function (res) {
+      if (!img) return res(false);
+      if (img.complete) return res(img.naturalWidth > 0);
+      img.addEventListener('load', function () { res(true); }, { once: true });
+      img.addEventListener('error', function () { res(false); }, { once: true });
+    });
+  }
+
+  var waits = [];
+  if (document.fonts && document.fonts.ready) {
+    waits.push(document.fonts.ready.then(function () { bump(30); }, function () { bump(30); }));
+  } else { bump(30); }
+
+  function watchHero() {
+    var img = document.querySelector('[data-hero-figure] img');
+    if (!img) { bump(34); return Promise.resolve(); }
+    return imgReady(img).then(function () {
+      bump(20);
+      var d = img.decode ? img.decode() : Promise.resolve();
+      return d.catch(function () {}).then(function () { bump(14); });
+    });
+  }
+  // The hero markup may not be parsed yet when this runs.
+  if (document.querySelector('[data-hero-figure] img')) {
+    waits.push(watchHero());
+  } else {
+    waits.push(new Promise(function (res) {
+      document.addEventListener('DOMContentLoaded', function () { watchHero().then(res); }, { once: true });
+    }));
+  }
+
+  var settled = false, exited = false, shown = 0;
+  function frame() {
+    var goal = settled ? 100 : target;
+    var ease = (Date.now() - started) < 320 ? 0.5 : 0.16;
+    shown += (goal - shown) * ease;
+    if (goal - shown < 0.4) shown = goal;
+    if (pctEl) pctEl.textContent = String(Math.round(shown));
+    if (fill) fill.style.transform = 'scaleX(' + (shown / 100).toFixed(4) + ')';
+    if (settled && shown >= 99.6) { exit(); return; }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  function exit() {
+    if (exited) return;
+    exited = true;
+    if (pctEl) pctEl.textContent = '100';
+    if (fill) fill.style.transform = 'scaleX(1)';
+    var quick = (Date.now() - started) < 700;
+    if (quick) el.classList.add('is-quick');
+    el.classList.add('is-out');
+    window.setTimeout(function () {
+      root.classList.remove('is-loading');
+      if (el.parentNode) el.parentNode.removeChild(el);
+      done();
+    }, reduced ? 0 : (quick ? 380 : 620));
+  }
+
+  Promise.all(waits).then(function () { settled = true; });
+  window.setTimeout(function () { settled = true; }, SAFETY);
+})();
+</script>
 
 <a class="skip-link" href="#main">Skip to content</a>
 

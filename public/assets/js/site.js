@@ -17,6 +17,25 @@
 
   function prefersReduced() { return reduced.matches; }
 
+
+  /* --------------------------------------------------- readiness plumbing */
+  /* The loader is an inline script in the document so it can start before
+     this bundle is parsed. Here we only observe when it has finished. */
+  function onReady(fn) {
+    if (window.__ctReady) fn();
+    else document.addEventListener('ct:ready', fn, { once: true });
+  }
+  /* Resolves true when an image is painted, false when it fails. Never hangs:
+     a cached image resolves immediately, a broken one resolves false. */
+  function imgReady(img) {
+    return new Promise(function (resolve) {
+      if (!img) return resolve(false);
+      if (img.complete) return resolve(img.naturalWidth > 0);
+      img.addEventListener('load', function () { resolve(true); }, { once: true });
+      img.addEventListener('error', function () { resolve(false); }, { once: true });
+    });
+  }
+
   /* ------------------------------------------------------------------ menu */
   (function mobileMenu() {
     var toggle = document.querySelector('.nav-toggle');
@@ -120,11 +139,20 @@
     }
     if (prefersReduced()) { open(); return; }
 
-    var net = window.setTimeout(open, 1400);   // safety net armed first
+    // If the loader has already finished - which happens on a slow device
+    // where this bundle parses after the reveal - the hero is on screen
+    // already, so arming it now would animate something the visitor can see.
+    if (window.__ctReady) { open(); return; }
+
+    // Otherwise arm at once, so the hero is never glimpsed half-built behind
+    // the loader, and open when the loader steps aside.
     hero.classList.add('is-arming');
     fig.classList.add('is-arming');
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () { window.clearTimeout(net); open(); });
+    var net = window.setTimeout(open, 5000);   // nothing can strand it hidden
+    onReady(function () {
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { window.clearTimeout(net); open(); });
+      });
     });
   })();
 
@@ -140,8 +168,44 @@
     var range = control.querySelector('.ba__range');
     if (!range) return;
 
+    var beforeImg = pair.querySelector('.ba__half--before img');
+    var afterImg = pair.querySelector('.ba__half--after img');
+
+    // Collapse to the single frame straight away so its dimensions are final,
+    // but hold the seam and the control behind a neutral surface until both
+    // photographs are actually usable. No broken icons, no early divider.
     pair.classList.add('is-compare');
-    control.hidden = false;
+    var cached = [beforeImg, afterImg].every(function (i) { return i && i.complete && i.naturalWidth > 0; });
+    if (!cached) pair.classList.add('is-waiting');
+
+    function settle(ok) {
+      if (pair.dataset.settled) return;
+      pair.dataset.settled = '1';
+      pair.classList.remove('is-waiting');
+      if (ok) {
+        control.hidden = false;              // slider only once both are real
+      } else {
+        // One of the pair is unusable, so offer the plain side-by-side layout
+        // rather than a comparison that cannot work.
+        pair.classList.remove('is-compare');
+      }
+    }
+
+    function begin() {
+      // The after layer starts fully clipped, and a browser will not fetch a
+      // lazy image that renders no pixels - so it would never load and the
+      // placeholder would sit there forever. Fetch both explicitly once the
+      // hero has had its turn at the bandwidth.
+      [beforeImg, afterImg].forEach(function (i) { if (i) i.loading = 'eager'; });
+      Promise.all([imgReady(beforeImg), imgReady(afterImg)]).then(function (ok) {
+        settle(ok[0] && ok[1]);
+      });
+      // Nothing may leave the placeholder up indefinitely.
+      window.setTimeout(function () {
+        settle(!!(beforeImg && beforeImg.naturalWidth && afterImg && afterImg.naturalWidth));
+      }, 6000);
+    }
+    if (cached) begin(); else onReady(begin);
 
     var pos = 0;
     function set(v, fromInput) {
