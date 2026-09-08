@@ -2,3 +2,4 @@ node_modules/
 assets-raw/
 public/assets/photos/
 .DS_Store
+qa/video/*.webm

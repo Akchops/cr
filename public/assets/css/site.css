@@ -271,7 +271,17 @@ address{font-style:normal;}
 .work .section-head{margin-bottom:clamp(1.8rem,3vw,2.4rem);}
 
 .stage{max-width:var(--maxw);margin-inline:auto;padding:0 var(--pad);}
-.stage__index{display:none;}
+.stage__index{
+  display:flex;align-items:baseline;gap:.15rem;
+  font-family:var(--display);font-weight:700;line-height:.8;
+  margin-bottom:1rem;
+}
+.stage__index-num{
+  font-size:clamp(3.2rem,14vw,5rem);color:var(--signal);
+  font-variant-numeric:tabular-nums;transition:opacity .2s var(--ease);
+}
+.stage__index-total{font-size:clamp(1rem,4vw,1.4rem);color:var(--steel);}
+.stage__index.is-swapping .stage__index-num{opacity:.25;}
 .stage__list{display:grid;gap:clamp(2rem,5vw,3rem);}
 .stage__beat{position:relative;}
 
@@ -683,10 +693,15 @@ address{font-style:normal;}
     display:flex;flex-direction:row;align-items:flex-end;
     justify-content:center;gap:1.6rem;height:100%;max-width:100%;
   }
+  /* One identical rectangle for all three beats, so each wipe replaces the
+     image in exactly the same box instead of two different crops meeting at
+     a hard edge. Portraits are biased slightly up so the subject holds. */
   .stage.is-pinned .shot--stage .shot__frame{
     height:100%;width:auto;max-width:100%;flex:none;
+    aspect-ratio:4/3 !important;
     border:1px solid var(--hair);
   }
+  .stage.is-pinned .shot--stage .shot__frame img{object-position:50% 42%;}
   .stage.is-pinned .shot--stage .shot__cap{
     margin:0 0 .35rem;max-width:19ch;text-align:left;flex:none;
   }
@@ -716,25 +731,64 @@ address{font-style:normal;}
 .js .reveal{opacity:0;transform:translateY(22px);}
 .js .reveal.is-in{opacity:1;transform:none;transition:opacity .62s var(--ease),transform .62s var(--ease);}
 
-/* Hero entrance: clipped frame opens. Applied by JS only. */
-.js .hero__figure.is-arming .shot__frame{clip-path:inset(0 0 100% 0);}
+/* ============================ HERO ENTRANCE =============================
+   The frame opens from a centre slit outwards while the image settles from a
+   14% overscale. Headline lines rise behind their own clip. Applied by JS, so
+   a failed script leaves the finished state on screen. Total under 1.2s.     */
+.js .hero__figure.is-arming .shot__frame{clip-path:inset(0 42% 0 42%);}
 .js .hero__figure.is-arming .shot__frame img,
-.js .hero__figure.is-arming .shot__frame .shot__pending{transform:scale(1.06);}
+.js .hero__figure.is-arming .shot__frame .shot__pending{transform:scale(1.14);}
 .js .hero__figure.is-open .shot__frame{
-  clip-path:inset(0 0 0 0);
-  transition:clip-path .66s var(--ease);
+  clip-path:inset(0 0% 0 0%);
+  transition:clip-path .92s cubic-bezier(.7,0,.16,1);
 }
 .js .hero__figure.is-open .shot__frame img,
 .js .hero__figure.is-open .shot__frame .shot__pending{
   transform:scale(1);
-  transition:transform .78s var(--ease);
+  transition:transform 1.15s cubic-bezier(.22,.61,.36,1);
 }
-.js .hero__figure.is-arming .shot__rule{opacity:0;transform:scale(1.08);}
+.js .hero__figure.is-arming .shot__rule{opacity:0;transform:translate(14px,14px);}
 .js .hero__figure.is-open .shot__rule{
-  opacity:.85;transform:scale(1);
-  transition:opacity .42s .24s var(--ease),transform .5s .24s var(--ease);
+  opacity:.85;transform:translate(0,0);
+  transition:opacity .5s .5s var(--ease),transform .7s .5s var(--ease);
 }
-.js .hero__title .line__i{will-change:transform;}
+.js .hero__figure.is-arming .shot__cap{opacity:0;transform:translateY(10px);}
+.js .hero__figure.is-open .shot__cap{
+  opacity:1;transform:none;transition:opacity .5s .62s var(--ease),transform .5s .62s var(--ease);
+}
+
+/* Headline lines rise from behind their own overflow clip. */
+.js .hero__title .line{overflow:hidden;}
+.js .hero__title .line__i{display:block;will-change:transform;}
+.js .hero.is-arming .hero__title .line__i{transform:translateY(105%);}
+.js .hero.is-open .hero__title .line__i{
+  transform:translateY(0);
+  transition:transform .82s cubic-bezier(.16,.84,.28,1);
+}
+.js .hero.is-open .hero__title .line:nth-child(1) .line__i{transition-delay:.10s;}
+.js .hero.is-open .hero__title .line:nth-child(2) .line__i{transition-delay:.20s;}
+
+.js .hero.is-arming .eyebrow,
+.js .hero.is-arming .hero__body,
+.js .hero.is-arming .hero__cta{opacity:0;transform:translateY(16px);}
+.js .hero.is-open .eyebrow,
+.js .hero.is-open .hero__body,
+.js .hero.is-open .hero__cta{
+  opacity:1;transform:none;
+  transition:opacity .6s var(--ease),transform .6s var(--ease);
+}
+.js .hero.is-open .eyebrow{transition-delay:.04s;}
+.js .hero.is-open .hero__body{transition-delay:.34s;}
+.js .hero.is-open .hero__cta{transition-delay:.44s;}
+
+/* Thin yellow rules draw themselves in. */
+.js .eyebrow--rule::before{transform:scaleX(0);transform-origin:left;}
+.js .eyebrow--rule.is-in::before{transform:scaleX(1);transition:transform .6s var(--ease);}
+
+/* CTA press and directional hover. */
+.btn{will-change:transform;}
+.btn--primary:hover,.btn--ghost:hover,.btn--outline:hover{transform:translateY(-2px);}
+.btn:active{transform:translateY(1px) scale(.985);transition-duration:.06s;}
 
 /* Reduced motion: final states, no pinning, ordinary gallery, nothing hidden */
 @media (prefers-reduced-motion:reduce){
@@ -744,17 +798,34 @@ address{font-style:normal;}
     transition-duration:.001ms !important;scroll-behavior:auto !important;
   }
   .js .reveal{opacity:1 !important;transform:none !important;}
+  .js .mask,.js .mask.is-in{clip-path:none !important;}
+  .js .mask > picture,.js .mask > picture > img,.js .mask > .shot__pending{transform:none !important;}
+
+  /* hero: finished state, nothing offset or clipped */
   .js .hero__figure.is-arming .shot__frame,
   .js .hero__figure.is-open .shot__frame{clip-path:none !important;}
   .js .hero__figure .shot__frame img,
   .js .hero__figure .shot__frame .shot__pending{transform:none !important;}
   .js .hero__figure .shot__rule{opacity:.85 !important;transform:none !important;}
+  .js .hero__figure .shot__cap{opacity:1 !important;transform:none !important;}
+  .js .hero .hero__title .line__i{transform:none !important;}
+  .js .hero .eyebrow,.js .hero .hero__body,.js .hero .hero__cta{opacity:1 !important;transform:none !important;}
+  .js .eyebrow--rule::before{transform:scaleX(1) !important;}
+
+  /* work stage: an ordinary gallery, never pinned */
   .stage.is-pinned{height:auto !important;}
   .stage.is-pinned .stage__viewport{position:static !important;height:auto !important;display:block !important;}
   .stage.is-pinned .stage__list{position:static !important;height:auto !important;display:grid !important;gap:3rem;}
   .stage.is-pinned .stage__beat{position:static !important;clip-path:none !important;opacity:1 !important;}
   .stage.is-pinned .shot--stage .shot__frame{height:auto !important;width:100% !important;}
-  .stage.is-pinned .stage__index{display:none !important;}
+
+  /* before/after stays the plain side-by-side pair */
+  .ba__pair.is-compare{display:grid !important;position:static !important;}
+  .ba__pair.is-compare .ba__half{position:relative !important;inset:auto !important;}
+  .ba__pair.is-compare .ba__half--after{clip-path:none !important;}
+  .ba__pair.is-compare .ba__divider,.ba__pair.is-compare .ba__range{display:none !important;}
+  .ba__pair.is-compare .ba__chip--after{left:0 !important;right:auto !important;}
+  .js .ba__pair.is-compare + .ba__hint{display:none !important;}
 }
 
 /* Printing keeps the disclaimer visible */

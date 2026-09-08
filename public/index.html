@@ -182,33 +182,42 @@
         <p class="ba__lede">The rear seating of one vehicle, photographed before and after interior detailing.</p>
       </div>
 
-      <div class="ba__pair">
-        <figure class="shot ba__item" data-shot>
-          <div class="shot__frame ratio ratio--3x4">
-            <picture>
-              <source type="image/avif" srcset="assets/photos/rear-seating-before-473.avif 473w" sizes="(min-width: 760px) 32vw, 46vw">
-              <source type="image/webp" srcset="assets/photos/rear-seating-before-473.webp 473w" sizes="(min-width: 760px) 32vw, 46vw">
-              <img src="assets/photos/rear-seating-before-473.webp" width="473" height="612" loading="lazy" decoding="async"
-                   alt="The rear seating area of a red vehicle covered in loose hay and debris before cleaning.">
-            </picture>
-            <span class="shot__pending" aria-hidden="true" data-pending-label="Rear seating, before"></span>
-            <span class="ba__chip ba__chip--before">Before</span>
-          </div>
-        </figure>
+      <div class="ba__pair" data-compare>
+        <div class="ba__half ba__half--before">
+          <figure class="shot ba__item" data-shot>
+            <div class="shot__frame ratio ratio--3x4">
+              <picture>
+                <source type="image/avif" srcset="assets/photos/rear-seating-before-473.avif 473w" sizes="(min-width: 760px) 46vw, 46vw">
+                <source type="image/webp" srcset="assets/photos/rear-seating-before-473.webp 473w" sizes="(min-width: 760px) 46vw, 46vw">
+                <img src="assets/photos/rear-seating-before-473.webp" width="473" height="612" loading="lazy" decoding="async"
+                     alt="The rear seating area of a red vehicle covered in loose hay and debris before cleaning.">
+              </picture>
+              <span class="shot__pending" aria-hidden="true" data-pending-label="Rear seating, before"></span>
+            </div>
+          </figure>
+          <span class="ba__chip ba__chip--before">Before</span>
+        </div>
 
-        <figure class="shot ba__item" data-shot>
-          <div class="shot__frame ratio ratio--3x4">
-            <picture>
-              <source type="image/avif" srcset="assets/photos/rear-seating-463.avif 463w" sizes="(min-width: 760px) 32vw, 46vw">
-              <source type="image/webp" srcset="assets/photos/rear-seating-463.webp 463w" sizes="(min-width: 760px) 32vw, 46vw">
-              <img src="assets/photos/rear-seating-463.webp" width="463" height="625" loading="lazy" decoding="async"
-                   alt="The same rear seating area, clean and free of debris after detailing.">
-            </picture>
-            <span class="shot__pending" aria-hidden="true" data-pending-label="Rear seating, after"></span>
-            <span class="ba__chip ba__chip--after">After</span>
-          </div>
-        </figure>
+        <div class="ba__half ba__half--after">
+          <figure class="shot ba__item" data-shot>
+            <div class="shot__frame ratio ratio--3x4">
+              <picture>
+                <source type="image/avif" srcset="assets/photos/rear-seating-463.avif 463w" sizes="(min-width: 760px) 46vw, 46vw">
+                <source type="image/webp" srcset="assets/photos/rear-seating-463.webp 463w" sizes="(min-width: 760px) 46vw, 46vw">
+                <img src="assets/photos/rear-seating-463.webp" width="463" height="625" loading="lazy" decoding="async"
+                     alt="The same rear seating area, clean and free of debris after detailing.">
+              </picture>
+              <span class="shot__pending" aria-hidden="true" data-pending-label="Rear seating, after"></span>
+            </div>
+          </figure>
+          <span class="ba__chip ba__chip--after">After</span>
+        </div>
+
+        <div class="ba__divider" aria-hidden="true"><span class="ba__grip"></span></div>
+        <input class="ba__range" type="range" min="0" max="100" value="50" step="1"
+               aria-label="Drag to compare the rear seating before and after detailing">
       </div>
+      <p class="ba__hint">Drag the handle, or focus it and use the arrow keys, to compare.</p>
     </div>
 
     <ul class="work-grid">
