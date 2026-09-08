@@ -143,19 +143,19 @@
     pair.classList.add('is-compare');
     control.hidden = false;
 
-    var pos = 50;
+    var pos = 0;
     function set(v, fromInput) {
       pos = Math.max(0, Math.min(100, v));
       var pct = pos + '%';
       pair.style.setProperty('--pos', pct);
       control.style.setProperty('--pos', pct);       // paints the track fill
       if (!fromInput) range.value = String(pos);
-      range.setAttribute('aria-valuetext',
-        Math.round(pos) + '% after, ' + Math.round(100 - pos) + '% before');
+      range.setAttribute('aria-valuetext', pos <= 1 ? 'Before detailing'
+        : (pos >= 99 ? 'After detailing' : Math.round(pos) + '% revealed after detailing'));
       control.classList.toggle('at-before', pos <= 12);
       control.classList.toggle('at-after', pos >= 88);
     }
-    set(50);
+    set(0);
 
     range.addEventListener('input', function () { set(parseFloat(range.value), true); });
 
@@ -291,10 +291,18 @@
     return function () { made.forEach(function (t) { t.scrollTrigger && t.scrollTrigger.kill(); t.kill(); }); };
   });
 
-  /* Layout shifts as lazy images arrive, so positions are recalculated. */
-  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+  /* Layout shifts as lazy images arrive, so trigger positions need
+     recalculating - but one refresh per image recalculates every trigger over
+     and over, which reads as the page hitching at each photograph. Coalesce
+     them into a single refresh once loading has gone quiet. */
+  var refreshTimer = 0;
+  function refreshSoon() {
+    window.clearTimeout(refreshTimer);
+    refreshTimer = window.setTimeout(function () { ScrollTrigger.refresh(); }, 250);
+  }
+  window.addEventListener('load', refreshSoon);
   [].forEach.call(document.querySelectorAll('img'), function (img) {
-    if (!img.complete) img.addEventListener('load', function () { ScrollTrigger.refresh(); }, { once: true });
+    if (!img.complete) img.addEventListener('load', refreshSoon, { once: true });
   });
 
   /* Hero on scroll: the frame widens, the photograph drifts at its own rate,

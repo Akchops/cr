@@ -310,7 +310,7 @@ address{font-style:normal;}
 .ba__hint{margin-top:.7rem;font-size:.8rem;color:var(--steel);}
 
 .ba__pair.is-compare{
-  --pos:50%;
+  --pos:0%;
   position:relative;display:block;
   width:100%;max-width:430px;
   aspect-ratio:3/4;overflow:hidden;border-radius:3px;
@@ -323,7 +323,7 @@ address{font-style:normal;}
   height:100%;width:100%;aspect-ratio:auto;border:0;border-radius:0;
 }
 .ba__pair.is-compare .ba__half--after{
-  clip-path:inset(0 0 0 var(--pos));will-change:clip-path;
+  clip-path:inset(0 calc(100% - var(--pos)) 0 0);will-change:clip-path;
 }
 .ba__pair.is-compare .ba__seam{
   display:block;position:absolute;top:0;bottom:0;left:var(--pos);
