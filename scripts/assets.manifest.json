@@ -94,7 +94,7 @@
       "url": "https://img1.wsimg.com/isteam/ip/c40cbda0-ffd9-4b4a-bee2-3d19d4bcb9b2/DDCFA457-ABCC-47DF-963F-20185D990278.jpeg",
       "alt": "The rear seating area of a red vehicle, clean and unoccupied.",
       "caption": "Rear seating, interior",
-      "role": "about section",
+      "role": "before/after pair (the after half) - removed from the about section",
       "used": true,
       "provenance": "recovered from an owner-supplied iPhone screenshot of the live site (1284x2778), cropped and trimmed. Re-compressed and well below the original - acceptable for review, NOT for launch. Replace with the original JPEG before any launch.",
       "localWidth": 463,

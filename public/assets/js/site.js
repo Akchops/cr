@@ -233,7 +233,7 @@
     // --- single text blocks -------------------------------------------------
     gsap.utils.toArray([
       '.work .section-head', '.ba__head', '.services .section-head', '.svc__foot',
-      '.also', '.about__copy', '.reviews-sec .section-head', '.contact .section-head',
+      '.also', '.about__lead', '.about__copy', '.reviews-sec .section-head', '.contact .section-head',
       '.contact__actions', '.closing__inner'
     ].join(',')).forEach(function (el) {
       made.push(gsap.fromTo(el, { opacity: 0, y: 26 },
@@ -254,7 +254,7 @@
     });
 
     // --- photography: directional mask + scale inside the crop --------------
-    gsap.utils.toArray('.work-grid .shot__frame, .about__shot .shot__frame, .svc__shot .shot__frame')
+    gsap.utils.toArray('.work-grid .shot__frame, .svc__shot .shot__frame')
       .forEach(function (frame, i) {
         var pic = frame.querySelector('picture, .shot__pending');
         var from = i % 2 ? 'inset(0% 0% 0% 100%)' : 'inset(0% 100% 0% 0%)';
