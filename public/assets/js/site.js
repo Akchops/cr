@@ -129,40 +129,55 @@
   })();
 
   /* ============================ SIGNATURE 3 ============================
-     Before/after comparison. Upgrades the side-by-side pair to an overlay
-     with a draggable, keyboard-operable divider. Falls back to the pair. */
+     One frame, one slider beneath it. Dragging right reveals the after
+     photograph, dragging left brings the before back. The control is a real
+     range input, so keyboard and assistive tech work without extra code.
+     Without JS, or under reduced motion, the side-by-side pair stands.    */
   (function compare() {
     var pair = document.querySelector('[data-compare]');
-    if (!pair || prefersReduced()) return;
-    var range = pair.querySelector('.ba__range');
-    var after = pair.querySelector('.ba__half--after');
-    if (!range || !after) return;
+    var control = document.querySelector('[data-control]');
+    if (!pair || !control || prefersReduced()) return;
+    var range = control.querySelector('.ba__range');
+    if (!range) return;
 
     pair.classList.add('is-compare');
+    control.hidden = false;
 
-    function set(v) {
-      var pos = Math.max(0, Math.min(100, v));
-      pair.style.setProperty('--pos', pos + '%');
-      if (range.value !== String(pos)) range.value = pos;
-      range.setAttribute('aria-valuetext', Math.round(pos) + '% of the after photograph shown');
+    var pos = 50;
+    function set(v, fromInput) {
+      pos = Math.max(0, Math.min(100, v));
+      var pct = pos + '%';
+      pair.style.setProperty('--pos', pct);
+      control.style.setProperty('--pos', pct);       // paints the track fill
+      if (!fromInput) range.value = String(pos);
+      range.setAttribute('aria-valuetext',
+        Math.round(pos) + '% after, ' + Math.round(100 - pos) + '% before');
+      control.classList.toggle('at-before', pos <= 12);
+      control.classList.toggle('at-after', pos >= 88);
     }
     set(50);
-    range.addEventListener('input', function () { set(parseFloat(range.value)); });
 
-    // Pointer sweep on fine pointers: hovering scrubs without needing a drag.
-    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      var raf = 0;
-      pair.addEventListener('pointermove', function (e) {
-        if (e.pointerType !== 'mouse') return;
-        if (raf) return;
-        raf = requestAnimationFrame(function () {
-          raf = 0;
-          var r = pair.getBoundingClientRect();
-          set(((e.clientX - r.left) / r.width) * 100);
-        });
+    range.addEventListener('input', function () { set(parseFloat(range.value), true); });
+
+    // Dragging directly on the photograph, mouse or touch.
+    var dragging = false, raf = 0;
+    function fromEvent(e) {
+      if (raf) return;
+      raf = requestAnimationFrame(function () {
+        raf = 0;
+        var r = pair.getBoundingClientRect();
+        set(((e.clientX - r.left) / r.width) * 100);
       });
-      pair.addEventListener('pointerleave', function () { set(50); });
     }
+    pair.addEventListener('pointerdown', function (e) {
+      dragging = true;
+      pair.setPointerCapture && pair.setPointerCapture(e.pointerId);
+      fromEvent(e);
+    });
+    pair.addEventListener('pointermove', function (e) { if (dragging) fromEvent(e); });
+    ['pointerup', 'pointercancel'].forEach(function (t) {
+      pair.addEventListener(t, function () { dragging = false; });
+    });
   })();
 
   /* ------------------------------------------------------------ scroll spy */

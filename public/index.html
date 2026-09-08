@@ -195,7 +195,6 @@
               <span class="shot__pending" aria-hidden="true" data-pending-label="Rear seating, before"></span>
             </div>
           </figure>
-          <span class="ba__chip ba__chip--before">Before</span>
         </div>
 
         <div class="ba__half ba__half--after">
@@ -210,14 +209,18 @@
               <span class="shot__pending" aria-hidden="true" data-pending-label="Rear seating, after"></span>
             </div>
           </figure>
-          <span class="ba__chip ba__chip--after">After</span>
         </div>
 
-        <div class="ba__divider" aria-hidden="true"><span class="ba__grip"></span></div>
-        <input class="ba__range" type="range" min="0" max="100" value="50" step="1"
-               aria-label="Drag to compare the rear seating before and after detailing">
+        <span class="ba__seam" aria-hidden="true"></span>
       </div>
-      <p class="ba__hint">Drag the handle, or focus it and use the arrow keys, to compare.</p>
+
+      <div class="ba__control" data-control hidden>
+        <span class="ba__end ba__end--before" aria-hidden="true">Before</span>
+        <input class="ba__range" type="range" min="0" max="100" value="50" step="1"
+               aria-label="Compare the rear seating before and after detailing. Left shows before, right shows after.">
+        <span class="ba__end ba__end--after" aria-hidden="true">After</span>
+      </div>
+      <p class="ba__hint">Drag the slider — or focus it and use the arrow keys.</p>
     </div>
 
     <ul class="work-grid">
