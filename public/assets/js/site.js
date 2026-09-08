@@ -128,70 +128,6 @@
     });
   })();
 
-  /* --------------------------------------------------- scroll-in reveals */
-  (function reveals() {
-    if (!canObserve || prefersReduced()) return;
-    var targets = [].slice.call(document.querySelectorAll(
-      '.work .section-head, .ba__head, .services .section-head, .svc__row,' +
-      '.svc__foot, .also, .about__shot, .about__copy, .reviews-sec .section-head,' +
-      '.rv, .contact .section-head, .contact__actions, .contact__panel, .closing__inner'
-    ));
-    if (!targets.length) return;
-    targets.forEach(function (el) { el.classList.add('reveal'); });
-
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        var el = e.target;
-        var sibs = el.parentElement ? [].slice.call(el.parentElement.children) : [];
-        var i = Math.max(0, sibs.indexOf(el));
-        el.style.transitionDelay = Math.min(i, 4) * 70 + 'ms';
-        el.classList.add('is-in');
-        io.unobserve(el);
-      });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    targets.forEach(function (el) { io.observe(el); });
-    window.setTimeout(function () {
-      targets.forEach(function (el) { el.classList.add('is-in'); });
-    }, 4000);
-  })();
-
-  /* ------------------------------------------- thin yellow rules draw in */
-  (function rules() {
-    if (!canObserve || prefersReduced()) {
-      [].forEach.call(document.querySelectorAll('.eyebrow--rule'), function (r) { r.classList.add('is-in'); });
-      return;
-    }
-    var rs = [].slice.call(document.querySelectorAll('.eyebrow--rule'));
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
-    }, { threshold: 0.5 });
-    rs.forEach(function (r) { io.observe(r); });
-    window.setTimeout(function () { rs.forEach(function (r) { r.classList.add('is-in'); }); }, 4000);
-  })();
-
-  /* ------------------------------------------------ mask reveals (photos) */
-  (function maskReveals() {
-    if (!canObserve || prefersReduced()) return;
-    var sel = ['.work-grid .shot__frame', '.about__shot .shot__frame', '.svc__shot .shot__frame'];
-    var frames = [].slice.call(document.querySelectorAll(sel.join(',')));
-    if (!frames.length) return;
-    frames.forEach(function (f) { f.classList.add('mask'); });
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        var el = e.target;
-        var g = el.closest('li, .svc__row, .about__shot');
-        var i = (g && g.parentElement) ? [].indexOf.call(g.parentElement.children, g) : 0;
-        el.style.transitionDelay = Math.min(i, 3) * 90 + 'ms';
-        el.classList.add('is-in');
-        io.unobserve(el);
-      });
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
-    frames.forEach(function (f) { io.observe(f); });
-    window.setTimeout(function () { frames.forEach(function (f) { f.classList.add('is-in'); }); }, 4000);
-  })();
-
   /* ============================ SIGNATURE 3 ============================
      Before/after comparison. Upgrades the side-by-side pair to an overlay
      with a draggable, keyboard-operable divider. Falls back to the pair. */
@@ -278,6 +214,74 @@
   var mm = gsap.matchMedia();
   var MOTION_OK = '(prefers-reduced-motion: no-preference)';
 
+
+  /* ===================== REVERSIBLE SCROLL REVEALS =====================
+     Every reveal is a ScrollTrigger with toggleActions
+     "play reverse play reverse": it animates in whenever the element enters
+     the viewport from either direction and animates back out when it leaves,
+     so scrolling up replays exactly like scrolling down. Nothing is one-shot.
+     These run on mobile and desktop alike - the only thing gated by width is
+     the pinned stage.                                                       */
+  mm.add(MOTION_OK, function () {
+    var TA = 'play reverse play reverse';
+    var made = [];
+
+    function trig(el, start, end) {
+      return { trigger: el, start: start || 'top 88%', end: end || 'bottom 6%', toggleActions: TA };
+    }
+
+    // --- single text blocks -------------------------------------------------
+    gsap.utils.toArray([
+      '.work .section-head', '.ba__head', '.services .section-head', '.svc__foot',
+      '.also', '.about__copy', '.reviews-sec .section-head', '.contact .section-head',
+      '.contact__actions', '.closing__inner'
+    ].join(',')).forEach(function (el) {
+      made.push(gsap.fromTo(el, { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: .72, ease: 'power2.out', scrollTrigger: trig(el) }));
+    });
+
+    // --- grouped, staggered -------------------------------------------------
+    [['.svc', '.svc__row'], ['.rv__list', '.rv'], ['.work-grid', 'li'],
+     ['.contact__grid', '.contact__panel'], ['.also__list', '.also__item']
+    ].forEach(function (pair) {
+      var box = document.querySelector(pair[0]);
+      if (!box) return;
+      var kids = box.querySelectorAll(pair[1]);
+      if (!kids.length) return;
+      made.push(gsap.fromTo(kids, { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: .7, ease: 'power2.out', stagger: .09,
+          scrollTrigger: trig(box, 'top 85%') }));
+    });
+
+    // --- photography: directional mask + scale inside the crop --------------
+    gsap.utils.toArray('.work-grid .shot__frame, .about__shot .shot__frame, .svc__shot .shot__frame')
+      .forEach(function (frame, i) {
+        var pic = frame.querySelector('picture, .shot__pending');
+        var from = i % 2 ? 'inset(0% 0% 0% 100%)' : 'inset(0% 100% 0% 0%)';
+        made.push(gsap.fromTo(frame, { clipPath: from },
+          { clipPath: 'inset(0% 0% 0% 0%)', duration: .85, ease: 'power2.out', scrollTrigger: trig(frame, 'top 86%') }));
+        if (pic) {
+          made.push(gsap.fromTo(pic, { scale: 1.12 },
+            { scale: 1, duration: 1.05, ease: 'power2.out', scrollTrigger: trig(frame, 'top 86%') }));
+        }
+      });
+
+    // --- thin yellow rules draw themselves, both directions -----------------
+    gsap.utils.toArray('.eyebrow--rule').forEach(function (r) {
+      made.push(gsap.fromTo(r, { '--rule-x': 0 }, { '--rule-x': 1, duration: .55, ease: 'power2.out',
+        scrollTrigger: trig(r, 'top 92%') }));
+      r.classList.add('is-in');
+    });
+
+    return function () { made.forEach(function (t) { t.scrollTrigger && t.scrollTrigger.kill(); t.kill(); }); };
+  });
+
+  /* Layout shifts as lazy images arrive, so positions are recalculated. */
+  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+  [].forEach.call(document.querySelectorAll('img'), function (img) {
+    if (!img.complete) img.addEventListener('load', function () { ScrollTrigger.refresh(); }, { once: true });
+  });
+
   /* Hero on scroll: the frame widens, the photograph drifts at its own rate,
      and the background word moves slower than everything in front of it. */
   mm.add('(min-width: 960px) and ' + MOTION_OK, function () {
@@ -296,6 +300,28 @@
       gsap.to(ghost, { y: 150, ease: 'none',
         scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: .9 } });
     }
+  });
+
+
+  /* Hero replays. Scrolling back to the top re-arms the entrance so the
+     reveal plays again on the way down, instead of only once per page load. */
+  mm.add(MOTION_OK, function () {
+    var hero = document.querySelector('.hero');
+    var fig = document.querySelector('[data-hero-figure]');
+    if (!hero || !fig) return;
+
+    function arm()  { hero.classList.remove('is-open');  fig.classList.remove('is-open');
+                      hero.classList.add('is-arming');   fig.classList.add('is-arming'); }
+    function open() { hero.classList.remove('is-arming'); fig.classList.remove('is-arming');
+                      hero.classList.add('is-open');      fig.classList.add('is-open'); }
+
+    var st = ScrollTrigger.create({
+      trigger: hero,
+      start: 'bottom top',          // hero fully above the viewport
+      onEnter: arm,                 // scrolled past it - reset, off-screen so unseen
+      onLeaveBack: open             // coming back up into it - play again
+    });
+    return function () { st.kill(); open(); };
   });
 
   /* Mobile hero: no pinning, just a gentle differential drift so the first
@@ -382,17 +408,19 @@
       if (!frame) return;
       var from = i % 2 ? 'inset(0% 0% 0% 100%)' : 'inset(0% 100% 0% 0%)';
       var pic = frame.querySelector('picture, .shot__pending');
+      var TA = 'play reverse play reverse';
       gsap.fromTo(frame, { clipPath: from },
         { clipPath: 'inset(0% 0% 0% 0%)', ease: 'power2.out', duration: .9,
-          scrollTrigger: { trigger: beat, start: 'top 82%', once: true } });
+          scrollTrigger: { trigger: beat, start: 'top 84%', end: 'bottom 8%', toggleActions: TA } });
       if (pic) {
         gsap.fromTo(pic, { scale: 1.12 },
           { scale: 1, ease: 'power2.out', duration: 1.1,
-            scrollTrigger: { trigger: beat, start: 'top 82%', once: true } });
+            scrollTrigger: { trigger: beat, start: 'top 84%', end: 'bottom 8%', toggleActions: TA } });
       }
       if (cap) {
-        gsap.from(cap, { opacity: 0, y: 16, duration: .5, ease: 'power2.out',
-          scrollTrigger: { trigger: beat, start: 'top 74%', once: true } });
+        gsap.fromTo(cap, { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: .5, ease: 'power2.out',
+            scrollTrigger: { trigger: beat, start: 'top 78%', end: 'bottom 8%', toggleActions: TA } });
       }
     });
   });

@@ -64,7 +64,8 @@ address{font-style:normal;}
   margin:0 0 1rem;
 }
 .eyebrow--rule{display:flex;align-items:center;gap:.85rem;}
-.eyebrow--rule::before{content:"";width:34px;height:2px;background:var(--signal);flex:none;}
+.eyebrow--rule::before{content:"";width:34px;height:2px;background:var(--signal);flex:none;
+  transform:scaleX(var(--rule-x,1));transform-origin:left;}
 
 .section-title{
   font-family:var(--display);font-weight:700;
@@ -209,27 +210,6 @@ address{font-style:normal;}
 .shot__pending--light::after{color:#8a7413;}
 
 
-/* Mask reveal for photography. Applied by JS only, so a failed script leaves
-   every image visible. Same visual language as the hero entrance and the
-   pinned stage, so a phone gets a deliberate reveal rather than a plain fade. */
-.js .mask{clip-path:inset(0 0 100% 0);}
-.js .mask > picture > img,
-.js .mask > picture,
-.js .mask > .shot__pending{transform:scale(1.05);}
-.js .mask.is-in{
-  clip-path:inset(0 0 0 0);
-  transition:clip-path .78s var(--ease);
-}
-.js .mask.is-in > picture > img,
-.js .mask.is-in > picture,
-.js .mask.is-in > .shot__pending{
-  transform:scale(1);
-  transition:transform .95s var(--ease);
-}
-@media (prefers-reduced-motion:reduce){
-  .js .mask,.js .mask.is-in{clip-path:none !important;}
-  .js .mask > picture,.js .mask > picture > img,.js .mask > .shot__pending{transform:none !important;}
-}
 
 /* --------------------------------- HERO --------------------------------- */
 .hero{position:relative;overflow:hidden;padding:clamp(2.2rem,5vw,4.5rem) 0 clamp(3rem,6vw,5.5rem);}
@@ -728,8 +708,6 @@ address{font-style:normal;}
    MOTION — every animated element is visible by default. JS opts in.
    Nothing is ever left permanently at opacity:0.
    ========================================================================== */
-.js .reveal{opacity:0;transform:translateY(22px);}
-.js .reveal.is-in{opacity:1;transform:none;transition:opacity .62s var(--ease),transform .62s var(--ease);}
 
 /* ============================ HERO ENTRANCE =============================
    The frame opens from a centre slit outwards while the image settles from a
@@ -781,9 +759,6 @@ address{font-style:normal;}
 .js .hero.is-open .hero__body{transition-delay:.34s;}
 .js .hero.is-open .hero__cta{transition-delay:.44s;}
 
-/* Thin yellow rules draw themselves in. */
-.js .eyebrow--rule::before{transform:scaleX(0);transform-origin:left;}
-.js .eyebrow--rule.is-in::before{transform:scaleX(1);transition:transform .6s var(--ease);}
 
 /* CTA press and directional hover. */
 .btn{will-change:transform;}
@@ -797,10 +772,7 @@ address{font-style:normal;}
     animation-duration:.001ms !important;animation-iteration-count:1 !important;
     transition-duration:.001ms !important;scroll-behavior:auto !important;
   }
-  .js .reveal{opacity:1 !important;transform:none !important;}
-  .js .mask,.js .mask.is-in{clip-path:none !important;}
-  .js .mask > picture,.js .mask > picture > img,.js .mask > .shot__pending{transform:none !important;}
-
+    
   /* hero: finished state, nothing offset or clipped */
   .js .hero__figure.is-arming .shot__frame,
   .js .hero__figure.is-open .shot__frame{clip-path:none !important;}
