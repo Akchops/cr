@@ -83,6 +83,33 @@
     });
   })();
 
+  /* ------------------------------------------------- dial / text escape
+     A sandboxed preview blocks an anchor that targets the top window, and
+     blocks a framed navigation to an external protocol. It does allow popups,
+     so inside a frame the click is routed through window.open instead. On a
+     normally deployed page nothing is intercepted - the anchor behaves as an
+     anchor, which is what a phone expects. */
+  (function dialLinks() {
+    var framed = false;
+    try { framed = window.self !== window.top; } catch (e) { framed = true; }
+    if (!framed) return;
+
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="tel:"], a[href^="sms:"]');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      e.preventDefault();
+      var opened = null;
+      try { opened = window.open(href, '_blank'); } catch (err) { opened = null; }
+      if (!opened) {
+        // Popup refused too - hand the number over rather than doing nothing.
+        try { window.top.location.href = href; } catch (err2) {
+          try { window.location.href = href; } catch (err3) {}
+        }
+      }
+    });
+  })();
+
   /* ------------------------------------------------ copy a phone number */
   (function copyNumbers() {
     var buttons = [].slice.call(document.querySelectorAll('.copy'));
