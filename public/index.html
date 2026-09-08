@@ -180,10 +180,10 @@
     </nav>
 
     <div class="site-header__actions">
-      <a class="header-tel" href="tel:+19785726344">
+      <span class="header-tel" data-dial="tel:+19785726344">
         <span class="header-tel__label">Call</span>
         <span class="header-tel__num">(978) 572-6344</span>
-      </a>
+      </span>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
         <span class="nav-toggle__bars" aria-hidden="true"><i></i><i></i></span>
       </button>
@@ -568,18 +568,15 @@
 
     <div class="contact__grid">
       <div class="contact__actions">
-        <a class="btn btn--primary btn--block" href="sms:+19784904139">Text for a quote</a>
-        <a class="btn btn--outline btn--block" href="tel:+19785726344">Call the shop</a>
-
         <dl class="numbers">
           <div class="numbers__item">
-            <dt>Text</dt>
-            <dd><a href="sms:+19784904139">(978) 490-4139</a></dd>
+            <dt>Text a quote request</dt>
+            <dd><span class="numbers__num" data-dial="sms:+19784904139">(978) 490-4139</span></dd>
             <button class="copy" type="button" data-copy="(978) 490-4139" aria-label="Copy the text number">Copy</button>
           </div>
           <div class="numbers__item">
-            <dt>Call</dt>
-            <dd><a href="tel:+19785726344">(978) 572-6344</a></dd>
+            <dt>Call the shop</dt>
+            <dd><span class="numbers__num" data-dial="tel:+19785726344">(978) 572-6344</span></dd>
             <button class="copy" type="button" data-copy="(978) 572-6344" aria-label="Copy the phone number">Copy</button>
           </div>
         </dl>

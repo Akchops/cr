@@ -66,6 +66,13 @@ password. The studio must not hold the only credentials for his live site.
 7. **Add what a live site needs** that a concept does not: a favicon he approves,
    an OG share image, and — if he wants it — analytics of his choosing.
 
+**Tap-to-call needs nothing doing.** In the private preview the page runs inside a
+sandboxed frame, which refuses both top-level navigation and framed external-protocol
+handling, so a `tel:` link there looks tappable and does nothing. The numbers therefore
+ship as plain text and the page upgrades them into real `tel:` and `sms:` links the
+moment it is served unframed — which is any real deployment. Verified both ways. There
+is no launch step and nothing to remember.
+
 ## If migration gets complicated
 
 Stop and explain the specific extra scope before doing it. Domain transfers, email

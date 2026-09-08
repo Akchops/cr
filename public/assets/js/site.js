@@ -83,31 +83,28 @@
     });
   })();
 
-  /* ------------------------------------------------- dial / text escape
-     A sandboxed preview blocks an anchor that targets the top window, and
-     blocks a framed navigation to an external protocol. It does allow popups,
-     so inside a frame the click is routed through window.open instead. On a
-     normally deployed page nothing is intercepted - the anchor behaves as an
-     anchor, which is what a phone expects. */
-  (function dialLinks() {
-    var framed = false;
-    try { framed = window.self !== window.top; } catch (e) { framed = true; }
-    if (!framed) return;
+  /* ------------------------------------------------------- dial upgrade
+     In the private preview the page runs inside a sandboxed frame, which
+     refuses both top-level navigation and framed external-protocol handling.
+     A tel: link there looks tappable and does nothing, which is worse than
+     not offering it, so the numbers ship as plain text.
 
-    document.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('a[href^="tel:"], a[href^="sms:"]');
-      if (!a) return;
-      var href = a.getAttribute('href');
-      e.preventDefault();
-      var opened = null;
-      try { opened = window.open(href, '_blank'); } catch (err) { opened = null; }
-      if (!opened) {
-        // Popup refused too - hand the number over rather than doing nothing.
-        try { window.top.location.href = href; } catch (err2) {
-          try { window.location.href = href; } catch (err3) {}
-        }
-      }
+     On a normally deployed page there is no frame and no such restriction,
+     so the same numbers are upgraded into real tel: and sms: links and
+     tap-to-call works as it should. Nothing to remember at launch. */
+  (function dialUpgrade() {
+    var framed = true;
+    try { framed = window.self !== window.top; } catch (e) { framed = true; }
+    if (framed) return;
+
+    [].forEach.call(document.querySelectorAll('[data-dial]'), function (el) {
+      var a = document.createElement('a');
+      a.href = el.getAttribute('data-dial');
+      a.className = el.className;
+      a.innerHTML = el.innerHTML;
+      el.parentNode.replaceChild(a, el);
     });
+    document.documentElement.classList.add('can-dial');
   })();
 
   /* ------------------------------------------------ copy a phone number */

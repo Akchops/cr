@@ -646,24 +646,7 @@ address{font-style:normal;}
   display:grid;gap:clamp(1.6rem,3.4vw,2.4rem);align-items:start;
 }
 .contact__actions{display:grid;gap:.7rem;}
-.numbers{display:grid;gap:.15rem;margin-top:.9rem;}
-.numbers__item{
-  display:flex;align-items:baseline;gap:.9rem;
-  padding:.55rem 0;border-bottom:1px solid var(--hair-lt);
-}
-.numbers__item dt{
-  font-family:var(--body);font-size:.68rem;font-weight:700;
-  letter-spacing:.19em;text-transform:uppercase;color:var(--steel-dk);
-  width:3.2rem;flex:none;
-}
 .numbers__item dd{margin:0;}
-.numbers__item dd a{
-  font-family:var(--display);font-weight:700;
-  font-size:clamp(1.5rem,1.2rem + 1.1vw,1.95rem);
-  letter-spacing:.01em;text-decoration:none;line-height:1.25;
-  display:inline-flex;align-items:center;min-height:44px;
-}
-.numbers__item dd a:hover{color:#9a8420;}
 .visually-hidden{
   position:absolute;width:1px;height:1px;margin:-1px;padding:0;
   overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
@@ -678,6 +661,31 @@ address{font-style:normal;}
 }
 .copy:hover{border-color:var(--ink);color:var(--ink);}
 .copy.is-done{background:var(--signal);border-color:var(--signal);color:var(--ink);}
+
+/* The numbers carry the contact section on their own now. They are plain text
+   in the preview; a deployed page turns them into real tel:/sms: links, which
+   is the only state where .can-dial exists. */
+.numbers{gap:.3rem;}
+.numbers__item{
+  display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap;
+  padding:.85rem 0;border-bottom:1px solid var(--hair-lt);
+}
+.numbers__item dt{
+  width:100%;flex:none;font-size:.68rem;font-weight:700;
+  letter-spacing:.17em;text-transform:uppercase;color:var(--steel-dk);
+  margin-bottom:.1rem;
+}
+.numbers__num{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(1.9rem,1.3rem + 2.2vw,2.7rem);
+  letter-spacing:.01em;line-height:1.1;color:var(--ink);
+  display:inline-flex;align-items:center;min-height:44px;
+}
+.can-dial a.numbers__num{text-decoration:none;}
+.can-dial a.numbers__num:hover{color:#9a8420;}
+.can-dial a.header-tel:hover .header-tel__num{color:var(--signal);}
+.header-tel{cursor:default;}
+.can-dial a.header-tel{cursor:pointer;text-decoration:none;}
 .numbers__hint{font-size:.82rem;color:var(--steel-dk);margin-top:.5rem;}
 
 .contact__panel{
@@ -1123,10 +1131,10 @@ address{font-style:normal;}
     </nav>
 
     <div class="site-header__actions">
-      <a class="header-tel" href="tel:+19785726344">
+      <span class="header-tel" data-dial="tel:+19785726344">
         <span class="header-tel__label">Call</span>
         <span class="header-tel__num">(978) 572-6344</span>
-      </a>
+      </span>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
         <span class="nav-toggle__bars" aria-hidden="true"><i></i><i></i></span>
       </button>
@@ -1467,18 +1475,15 @@ address{font-style:normal;}
 
     <div class="contact__grid">
       <div class="contact__actions">
-        <a class="btn btn--primary btn--block" href="sms:+19784904139">Text for a quote</a>
-        <a class="btn btn--outline btn--block" href="tel:+19785726344">Call the shop</a>
-
         <dl class="numbers">
           <div class="numbers__item">
-            <dt>Text</dt>
-            <dd><a href="sms:+19784904139">(978) 490-4139</a></dd>
+            <dt>Text a quote request</dt>
+            <dd><span class="numbers__num" data-dial="sms:+19784904139">(978) 490-4139</span></dd>
             <button class="copy" type="button" data-copy="(978) 490-4139" aria-label="Copy the text number">Copy</button>
           </div>
           <div class="numbers__item">
-            <dt>Call</dt>
-            <dd><a href="tel:+19785726344">(978) 572-6344</a></dd>
+            <dt>Call the shop</dt>
+            <dd><span class="numbers__num" data-dial="tel:+19785726344">(978) 572-6344</span></dd>
             <button class="copy" type="button" data-copy="(978) 572-6344" aria-label="Copy the phone number">Copy</button>
           </div>
         </dl>
@@ -1658,31 +1663,28 @@ address{font-style:normal;}
     });
   })();
 
-  /* ------------------------------------------------- dial / text escape
-     A sandboxed preview blocks an anchor that targets the top window, and
-     blocks a framed navigation to an external protocol. It does allow popups,
-     so inside a frame the click is routed through window.open instead. On a
-     normally deployed page nothing is intercepted - the anchor behaves as an
-     anchor, which is what a phone expects. */
-  (function dialLinks() {
-    var framed = false;
-    try { framed = window.self !== window.top; } catch (e) { framed = true; }
-    if (!framed) return;
+  /* ------------------------------------------------------- dial upgrade
+     In the private preview the page runs inside a sandboxed frame, which
+     refuses both top-level navigation and framed external-protocol handling.
+     A tel: link there looks tappable and does nothing, which is worse than
+     not offering it, so the numbers ship as plain text.
 
-    document.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('a[href^="tel:"], a[href^="sms:"]');
-      if (!a) return;
-      var href = a.getAttribute('href');
-      e.preventDefault();
-      var opened = null;
-      try { opened = window.open(href, '_blank'); } catch (err) { opened = null; }
-      if (!opened) {
-        // Popup refused too - hand the number over rather than doing nothing.
-        try { window.top.location.href = href; } catch (err2) {
-          try { window.location.href = href; } catch (err3) {}
-        }
-      }
+     On a normally deployed page there is no frame and no such restriction,
+     so the same numbers are upgraded into real tel: and sms: links and
+     tap-to-call works as it should. Nothing to remember at launch. */
+  (function dialUpgrade() {
+    var framed = true;
+    try { framed = window.self !== window.top; } catch (e) { framed = true; }
+    if (framed) return;
+
+    [].forEach.call(document.querySelectorAll('[data-dial]'), function (el) {
+      var a = document.createElement('a');
+      a.href = el.getAttribute('data-dial');
+      a.className = el.className;
+      a.innerHTML = el.innerHTML;
+      el.parentNode.replaceChild(a, el);
     });
+    document.documentElement.classList.add('can-dial');
   })();
 
   /* ------------------------------------------------ copy a phone number */
